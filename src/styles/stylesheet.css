@@ -8,7 +8,11 @@ body {
     padding: 0;
     text-align: center;
     overflow-y: hidden;
-    background: rgb(131, 0, 234) linear-gradient(0deg, rgba(131, 0, 234, 1) 31%, rgba(250, 0, 255, 1) 100%);
+    /* background: rgb(108, 0, 191) linear-gradient(0deg, rgba(144, 0, 255, 0.3) 31%, rgba(251, 0, 255, 0.5)); */
+    background: url(../images/mainBg.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }
 
 main {
@@ -20,7 +24,11 @@ main {
     height: 80%;
     width: 80%;
     padding: 2%;
-    background: #373737;
+    border-radius: 50px;
+    background: #4e4e4e url(../images/Asset\ 4.svg);
+    background-repeat: no-repeat;
+    background-position: bottom;
+    background-size: 100%;
     color: #fff;
 }
 
@@ -37,10 +45,6 @@ nav {
 }
 
 @media screen and (max-width: 600px) {
-    body {
-        background: blue;
-    }
-
     nav {
         width: 80px;
         margin-left: calc(100vw - 100px);
