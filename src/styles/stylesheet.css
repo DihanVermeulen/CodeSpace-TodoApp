@@ -1,3 +1,15 @@
+:root {
+    --primary-light: #8abdff;
+    --primary: #6d5dfc;
+    --primary-dark: #5b0eeb;
+    
+    --white: #FFFFFF;
+    --greyLight-1: #E4EBF5;
+    --greyLight-2: #c8d0e7;
+    --greyLight-3: #bec8e4;
+    --greyDark: #9baacf;
+  }
+
 body {
     display: flex;
     flex-direction: column;
@@ -31,6 +43,7 @@ main {
     background-position: bottom;
     background-size: 100%;
     color: #fff;
+    z-index: 1;
 }
 
 nav {
@@ -43,14 +56,16 @@ nav {
     margin-left: calc(100vw - 100px);
     border-radius: 4rem;
     background: #6100FF;
+    z-index: 2;
 }
 
 .waves {
-    position: fixed;
+    position: absolute;
     left: 0;
     bottom: 0;
     width: 100%;
-    height: 15vh;
+    height: 10vh;
+    z-index: 0;
 }
 
 .parallax>use {
