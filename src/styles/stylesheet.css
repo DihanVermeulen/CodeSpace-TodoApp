@@ -2,13 +2,13 @@
     --primary-light: #8abdff;
     --primary: #6d5dfc;
     --primary-dark: #5b0eeb;
-    
+
     --white: #FFFFFF;
     --greyLight-1: #E4EBF5;
     --greyLight-2: #c8d0e7;
     --greyLight-3: #bec8e4;
     --greyDark: #9baacf;
-  }
+}
 
 body {
     display: flex;
@@ -38,7 +38,7 @@ main {
     width: 80%;
     padding: 2%;
     border-radius: 50px;
-    background: #4e4e4e url(../images/Asset\ 4.svg);
+    background: #4e4e4e;
     background-repeat: no-repeat;
     background-position: bottom;
     background-size: 100%;
@@ -69,7 +69,7 @@ nav {
 }
 
 .parallax>use {
-    animation: move-forever 25s cubic-bezier(.55, .5, .45, .5) infinite;
+    animation: move-forever 40s cubic-bezier(.55, .5, .45, .5) infinite;
 }
 
 .parallax>use:nth-child(1) {
@@ -90,6 +90,36 @@ nav {
 .parallax>use:nth-child(4) {
     animation-delay: -5s;
     animation-duration: 20s;
+}
+
+/*  SEARCH  */
+.search {
+    grid-column: 3 / 4;
+    grid-row: 2 / 3;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search__input {
+    width: 20.4rem;
+    height: 2rem;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.4rem;
+    padding-left: 3.8rem;
+    box-shadow: inset .2rem .2rem .5rem black,
+        inset -.2rem -.2rem .5rem #fff;
+    background: none;
+    font-family: inherit;
+    color: var(--greyDark);
+    transition: 5s ease linear;
+}
+
+.search__input:focus {
+    outline: none;
+    box-shadow: .3rem .3rem .6rem black,
+        -.2rem -.2rem .5rem #fff;
 }
 
 @keyframes move-forever {
