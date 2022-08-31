@@ -10,6 +10,20 @@
     --greyDark: #9baacf;
 }
 
+h1 {
+    animation: 1s ease-out 0s 1 resize;
+    transform-origin: left;
+}
+
+h1:hover {
+    background: linear-gradient(90deg, rgb(90, 175, 255), rgb(103, 237, 255));
+    text-shadow: none;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: all 2s linear;
+}
+
 body {
     display: flex;
     flex-direction: column;
@@ -44,6 +58,8 @@ main {
     background-size: 100%;
     color: #fff;
     z-index: 1;
+    box-shadow: .6rem .3rem .3rem black,
+        -.4rem -.4rem .5rem rgb(103, 237, 255);
 }
 
 nav {
@@ -57,6 +73,46 @@ nav {
     border-radius: 4rem;
     background: #6100FF;
     z-index: 2;
+}
+
+.toolBar {
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem;
+}
+
+.toolBar .toolBar__button {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    margin: 1rem;
+    font-size: 1.5rem;
+    background: #4e4e4e;
+    box-shadow: .3rem .3rem .6rem black,
+        -.2rem -.2rem .5rem rgb(126, 126, 126);
+}
+
+.toolBar__button svg {
+    width: 2rem;
+}
+
+.toolBar__button:active {
+    box-shadow: inset .2rem .2rem .2rem black,
+        inset -.2rem -.2rem .2rem rgb(126, 126, 126);
+}
+
+.toolBar__button:hover {
+    color: linear-gradient(90deg, rgba(0,0,0,1), rgba(255, 255, 255, 1));
+    /* background: linear-gradient(90deg, rgba(0,0,0,1), rgba(255, 255, 255, 1)); */
+    /* color: black; */
+}
+
+.toolBar__button:hover > svg path {
+    fill: url(#MyGradient);
 }
 
 .waves {
@@ -102,24 +158,33 @@ nav {
 }
 
 .search__input {
-    width: 20.4rem;
+    width: 100%;
     height: 2rem;
     border: none;
     border-radius: 10px;
     font-size: 1.4rem;
     padding-left: 3.8rem;
-    box-shadow: inset .2rem .2rem .5rem black,
-        inset -.2rem -.2rem .5rem #fff;
+    box-shadow: inset .2rem .2rem .2rem black,
+        inset -.2rem -.2rem .2rem rgb(126, 126, 126);
     background: none;
     font-family: inherit;
     color: var(--greyDark);
-    transition: 5s ease linear;
 }
 
 .search__input:focus {
     outline: none;
     box-shadow: .3rem .3rem .6rem black,
-        -.2rem -.2rem .5rem #fff;
+        -.2rem -.2rem .5rem rgb(126, 126, 126);
+    transition: box-shadow 2s ease;
+}
+
+.search__input::placeholder {
+    color: black;
+}
+
+.search__input:focus::placeholder {
+    color: #fff;
+    transition: color 0.3s ease-in-out;
 }
 
 @keyframes move-forever {
@@ -132,10 +197,24 @@ nav {
     }
 }
 
+@keyframes resize {
+    0% {
+      transform: scale(0.5);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
 @media screen and (max-width: 600px) {
     nav {
+        display: none;
         width: 80px;
         margin-left: calc(100vw - 100px);
+    }
+
+    main {
+        align-items: center;
     }
 }
 
