@@ -10,11 +10,13 @@
     --greyDark: #9baacf;
 }
 
+/* Styling for h1 heading with animation on startup */
 h1 {
     animation: 1s ease-out 0s 1 resize;
     transform-origin: left;
 }
 
+/* Changes heading colour when hovering */
 h1:hover {
     background: linear-gradient(90deg, rgb(90, 175, 255), rgb(103, 237, 255));
     text-shadow: none;
@@ -24,6 +26,7 @@ h1:hover {
     transition: all 2s linear;
 }
 
+/* Basic styling for body */
 body {
     display: flex;
     flex-direction: column;
@@ -42,6 +45,7 @@ body {
     background-size: cover;
 }
 
+/* Basic styling for main section */
 main {
     display: flex;
     flex-direction: column;
@@ -62,6 +66,7 @@ main {
         -.4rem -.4rem .5rem rgb(103, 237, 255);
 }
 
+/* Basic styling for navigation */
 nav {
     display: flex;
     flex-direction: column;
@@ -75,12 +80,14 @@ nav {
     z-index: 2;
 }
 
+/* Styling for toolbar for task list */
 .toolBar {
     display: flex;
     justify-content: space-between;
     margin: 1rem;
 }
 
+/* Styling for toolbar buttons */
 .toolBar .toolBar__button {
     cursor: pointer;
     display: flex;
@@ -96,25 +103,23 @@ nav {
         -.2rem -.2rem .5rem rgb(126, 126, 126);
 }
 
+/* styling for toolbar button icons */
 .toolBar__button svg {
     width: 2rem;
 }
 
+/* Changes style of toolbar buttons when being pressed on */
 .toolBar__button:active {
     box-shadow: inset .2rem .2rem .2rem black,
         inset -.2rem -.2rem .2rem rgb(126, 126, 126);
 }
 
-.toolBar__button:hover {
-    color: linear-gradient(90deg, rgba(0,0,0,1), rgba(255, 255, 255, 1));
-    /* background: linear-gradient(90deg, rgba(0,0,0,1), rgba(255, 255, 255, 1)); */
-    /* color: black; */
-}
-
+/* Changes toolbar button icon colour to gradient defined in html file */
 .toolBar__button:hover > svg path {
     fill: url(#MyGradient);
 }
 
+/* Styling for waves at bottom of html body */
 .waves {
     position: absolute;
     left: 0;
@@ -124,39 +129,43 @@ nav {
     z-index: 0;
 }
 
+/* Animation for waves parallax */
 .parallax>use {
     animation: move-forever 40s cubic-bezier(.55, .5, .45, .5) infinite;
 }
 
+/* Animation for first wave  */
 .parallax>use:nth-child(1) {
     animation-delay: -2s;
     animation-duration: 7s;
 }
 
+/* Animation for second wave  */
 .parallax>use:nth-child(2) {
     animation-delay: -3s;
     animation-duration: 10s;
 }
 
+/* Animation for third wave  */
 .parallax>use:nth-child(3) {
     animation-delay: -4s;
     animation-duration: 13s;
 }
 
+/* Animation for fourth wave  */
 .parallax>use:nth-child(4) {
     animation-delay: -5s;
     animation-duration: 20s;
 }
 
-/*  SEARCH  */
+/* Styling for searchbar div */
 .search {
-    grid-column: 3 / 4;
-    grid-row: 2 / 3;
     position: relative;
     display: flex;
     align-items: center;
 }
 
+/* Styling for searchbar */
 .search__input {
     width: 100%;
     height: 2rem;
@@ -171,6 +180,7 @@ nav {
     color: var(--greyDark);
 }
 
+/* Styling for searchbar when it is on focus */
 .search__input:focus {
     outline: none;
     box-shadow: .3rem .3rem .6rem black,
@@ -178,15 +188,18 @@ nav {
     transition: box-shadow 2s ease;
 }
 
+/* Styling for searchbar placeholder */
 .search__input::placeholder {
     color: black;
 }
 
+/* Changes placeholder colour when focused on */
 .search__input:focus::placeholder {
     color: #fff;
     transition: color 0.3s ease-in-out;
 }
 
+/* Animation for all waves animation */
 @keyframes move-forever {
     0% {
         transform: translate3d(-90px, 0, 0);
@@ -197,15 +210,17 @@ nav {
     }
 }
 
+/* Animation for resizing element */
 @keyframes resize {
     0% {
-      transform: scale(0.5);
+      transform: scale(0);
     }
     100% {
       transform: scale(1);
     }
   }
 
+/* Media query for devices below 600px */
 @media screen and (max-width: 600px) {
     nav {
         display: none;
@@ -218,12 +233,14 @@ nav {
     }
 }
 
+/* Media query for devices below 1200px */
 @media screen and (max-width: 1200px) {
     nav {
         margin-left: calc(100vw - 150px);
     }
 }
 
+/* Media query for devices above 1200px */
 @media screen and (min-width: 1200px) {
     nav {
         margin-left: calc(100vw - 200px);
