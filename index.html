@@ -7,18 +7,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="src/styles/stylesheet.css">
     <script defer src="app.js"></script>
+    <script defer src="https://kit.fontawesome.com/4e581bf954.js" crossorigin="anonymous"></script>
     <title>Todo</title>
 </head>
 
 <body>
     <nav>
     </nav>
+
+    <!-- Main section where content is placed -->
     <main>
         <h1>Hello User this is your to-do list</h1>
         <div class="search">
             <input type="text" class="search__input" placeholder="Search...">
         </div>
+        <!-- toolbar for interacting with task categories -->
+        <div class="toolBar">
+            <div id="addButton" class="toolBar__button">
+                <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M30 7.5C42.375 7.5 52.5 17.625 52.5 30C52.5 42.375 42.375 52.5 30 52.5C17.625 52.5 7.5 42.375 7.5 30C7.5 17.625 17.625 7.5 30 
+                        7.5ZM30 3.75C15.5625 3.75 3.75 15.5625 3.75 30C3.75 44.4375 15.5625 56.25 30 56.25C44.4375 56.25 56.25 44.4375 56.25 30C56.25 15.5625 
+                        44.4375 3.75 30 3.75Z" fill="white" />
+                    <path d="M45 28.125H31.875V15H28.125V28.125H15V31.875H28.125V45H31.875V31.875H45V28.125Z"
+                        fill="white" />
+
+                    <linearGradient id="MyGradient">
+                        <stop offset="5%" stop-color="rgb(90, 175, 255)" />
+                        <stop offset="95%" stop-color="rgb(103, 237, 255)" />
+                    </linearGradient>
+                </svg>
+
+            </div>
+            <div id="sortButton" class="toolBar__button">
+                <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M24.1866 44.8668L18.1065 50.9467V2.01294H14.3565V50.9467L8.2766 44.8668L5.625 47.5184L16.2315 58.125L26.8382 
+                        47.5184L24.1866 44.8668ZM34.1382 53.5754H51.0132V49.8254H38.2352L51.0132 38.0209V32.9504H35.0757V36.7004H46.9164L34.1382 
+                        48.505V53.5754ZM40.2868 5.76294L33.4119 26.3879H37.3646L39.5522 19.8254H46.5366L48.724 26.3879H52.6768L45.8019 5.76294H40.2868ZM40.8025 
+                        16.0754L42.99 9.51294H43.0996L45.2871 16.0754H40.8025Z" fill="white" />
+                </svg>
+
+            </div>
+            <div id="filterButton" class="toolBar__button">
+                <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M22.5 30.6675V54.375C22.5 54.6947 22.5818 55.0092 22.7376 55.2884C22.8934 55.5676 23.1179 55.8024 23.39 55.9703C23.6621 
+                        56.1383 23.9726 56.2339 24.292 56.2481C24.6114 56.2622 24.9292 56.1945 25.215 56.0512L36.465 50.4262C36.7761 50.2704 37.0376 
+                        50.031 37.2204 49.735C37.4032 49.439 37.5 49.0979 37.5 48.75V30.6675L53.9513 10.5637C54.1074 10.3732 54.2244 10.1537 54.2957 
+                        9.91788C54.367 9.68207 54.3912 9.43452 54.3668 9.18938C54.3424 8.94423 54.27 8.70628 54.1537 8.48913C54.0373 8.27197 53.8794 
+                        8.07985 53.6888 7.92374C53.4982 7.76763 53.2787 7.65059 53.0429 7.5793C52.8071 7.508 52.5596 7.48385 52.3144 7.50823C52.0693 
+                        7.5326 51.8313 7.60503 51.6142 7.72136C51.397 7.83769 51.2049 7.99566 51.0488 8.18624L34.1738 28.8112C33.8994 29.1466 33.7497 
+                        29.5667 33.75 30V47.5912L26.25 51.3412V30C26.2504 29.5667 26.1006 29.1466 25.8263 28.8112L11.4563 11.25H41.25C41.7473 11.25 42.2242 
+                        11.0524 42.5759 10.7008C42.9275 10.3492 43.125 9.87227 43.125 9.37499C43.125 8.87771 42.9275 8.4008 42.5759 8.04917C42.2242 7.69754 
+                        41.7473 7.49999 41.25 7.49999H7.50003C7.14483 7.49975 6.79687 7.60042 6.49665 7.79026C6.19644 7.98011 5.95633 8.25132 5.80427 
+                        8.57233C5.65222 8.89334 5.59447 9.25094 5.63776 9.60349C5.68104 9.95605 5.82358 10.2891 6.04878 10.5637L22.5 30.6675Z"
+                        fill="white" />
+                </svg>
+            </div>
+        </div>
     </main>
+
+    <!-- Waves at the bottom of screen -->
     <div>
         <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
             viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
