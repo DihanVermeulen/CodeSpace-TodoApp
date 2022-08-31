@@ -115,7 +115,7 @@ nav {
 }
 
 /* Changes toolbar button icon colour to gradient defined in html file */
-.toolBar__button:hover > svg path {
+.toolBar__button:hover>svg path {
     fill: url(#MyGradient);
 }
 
@@ -199,6 +199,18 @@ nav {
     transition: color 0.3s ease-in-out;
 }
 
+.cursor {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border: solid 1px #fff;
+    border-radius: 50%;
+    transition-duration: 200ms;
+    transition-timing-function: ease-out;
+    pointer-events: none;
+    z-index: 999;
+}
+
 /* Animation for all waves animation */
 @keyframes move-forever {
     0% {
@@ -213,12 +225,13 @@ nav {
 /* Animation for resizing element */
 @keyframes resize {
     0% {
-      transform: scale(0);
+        transform: scale(0);
     }
+
     100% {
-      transform: scale(1);
+        transform: scale(1);
     }
-  }
+}
 
 /* Media query for devices below 600px */
 @media screen and (max-width: 600px) {
