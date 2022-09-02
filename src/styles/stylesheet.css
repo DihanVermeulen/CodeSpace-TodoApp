@@ -1,3 +1,5 @@
+@import url(../components/task-list/task-list.css);
+
 :root {
     --primary-light: #8abdff;
     --primary: #6d5dfc;
@@ -39,9 +41,9 @@ body {
     text-align: center;
     overflow-y: hidden;
     /* background: rgb(108, 0, 191) linear-gradient(0deg, rgba(144, 0, 255, 0.3) 31%, rgba(251, 0, 255, 0.5)); */
-    background: url(../images/mainBg.svg);
+    background: url(../images/main_bg.svg);
     background-repeat: no-repeat;
-    background-position: center;
+    /* background-position: center; */
     background-size: cover;
 }
 
@@ -52,18 +54,17 @@ main {
     align-items: flex-start;
     /* height: 80vh;
     width: 80vw; */
-    height: 80%;
-    width: 80%;
+    height: 80vh;
+    width: 80vw;
     padding: 2%;
-    border-radius: 50px;
+    border-radius: 10px;
     background: #4e4e4e;
     background-repeat: no-repeat;
     background-position: bottom;
     background-size: 100%;
     color: #fff;
     z-index: 1;
-    box-shadow: .6rem .3rem .3rem black,
-        -.4rem -.4rem .5rem rgb(103, 237, 255);
+    /* box-shadow: .6rem .3rem .3rem black; */
 }
 
 /* Basic styling for navigation */
@@ -72,19 +73,17 @@ nav {
     flex-direction: column;
     position: fixed;
     align-items: center;
-    height: 95vh;
+    height: 100vh;
     width: 80px;
-    right: 50px;
-    /* margin-left: calc(100vw - 100px); */
-    border-radius: 4rem;
-    background: #6100FF;
+    right: 0;
+    background: #139dff;
     z-index: 2;
     transition: .3s linear;
 }
 
 /* Expands navigation when hovered */
 nav:hover {
-    width: 200px;
+    width: 250px;
 }
 
 /* Styling for toolbar for task list */
@@ -206,14 +205,54 @@ nav:hover {
     transition: color 0.3s ease-in-out;
 }
 
+/* Styling for the tasks section */
 .taskList {
     width: 50%;
-    height: 10%;
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    /* background: rgb(132, 132, 132); */
+}
+
+.taskList::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+.taskList::-webkit-scrollbar-thumb {
+    background: #3aa1c9;
+    border-radius: 10px;
+}
+
+.taskList::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.taskCategory {
+    margin: 1rem;
+}
+
+.taskCategory__category {
+    display: flex;
+    width: 100%;
+    height: 3rem;
+    padding: 1%;
     background: #fff;
+    color: #000;
     border-radius: 10px;
     cursor: pointer;
     box-shadow: 4px 2px 7px 4px rgba(0, 0, 0, 0.5);
     -webkit-box-shadow: 4px 2px 7px 4px rgba(0, 0, 0, 0.5);
+}
+
+.taskCategory__category--active {
+    background: rgb(128, 242, 255);
+}
+
+.taskCategory__category--content {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.2s;
 }
 
 .cursor {
@@ -251,7 +290,7 @@ nav:hover {
 }
 
 /* Media query for devices below 600px */
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 800px) {
     nav {
         display: none;
         width: 80px;
@@ -264,6 +303,10 @@ nav:hover {
 
     .cursor {
         display: none;
+    }
+
+    .taskList {
+        width: 80%;
     }
 }
 
