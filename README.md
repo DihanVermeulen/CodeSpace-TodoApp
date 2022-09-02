@@ -18,14 +18,6 @@ Just as a basic to-do app; you can create tasks as well as categories where the 
 It has basic features such as being able to sort categories alphabetically, as well as sorting task in
 categories alphabetically, and filtering tasks.
 
-    ```mermaid
-    graph TD;
-        A-->B;
-        A-->C;
-        B-->D;
-        C-->D;
-    ```
-
 ### Credits
 
 This app was created by Dihan Vermeulen, 
