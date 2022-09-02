@@ -1,0 +1,15 @@
+ul {
+    background: #fff;
+}
+
+/* styling for toolbar button icons */
+.toolBar__button svg {
+    width: 2rem;
+}
+
+/* Styling for toolbar for task list */
+.toolBar {
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem;
+}
