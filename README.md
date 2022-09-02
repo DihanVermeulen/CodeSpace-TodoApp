@@ -1,4 +1,4 @@
-##CodeSpace Todo App Project
+## CodeSpace Todo App Project
 
 This is a to-do app project that is required as part of the CodeSpace curriculum.
 
