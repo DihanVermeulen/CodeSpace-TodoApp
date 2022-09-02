@@ -24,19 +24,27 @@ let checkIfFirstTimeOpened = () => {
     check = localStorage.getItem("isFirstTimeOpened");
     if(check) {
       localStorage.setItem("isFirstTimeOpened", false);
-      console.log("Not the first time opened")
+      // console.log("Not the first time opened")
       return false;
     }
     else {
         localStorage.setItem("isFirstTimeOpened", true);
-        console.log("First time opened")
+        // console.log("First time opened")
       return true;
     }
   }
-checkIfFirstTimeOpened();
+
+if(checkIfFirstTimeOpened()) {
+  console.log("First time opened")
+}
+else {
+  console.log("Not first time opened")
+};
 
 let tasks = {
-    category1 : [
+    category1 : {
+      icon: "URL",
+      tasks: [
       {
         id: 0,
         title: "title1",
@@ -51,11 +59,25 @@ let tasks = {
         dateCreated: "date created2",
         dueDate: "Due date2"
       }
-    ]
+    ]}
   }
 
+  // Created acordion element
+const accordions = document.querySelectorAll(".taskCategory__category");
+accordions.forEach(accordion => {
+  accordion.addEventListener("click", () => {
+    const content = accordion.nextElementSibling;
+    
+    accordion.classList.toggle('taskCategory__category--active');
 
-
+    if(accordion.classList.contains('taskCategory__category--active')) {
+      content.style.maxHeight = content.scrollHeight + 'px';
+    }
+    else {
+      content.style.maxHeight = 0;
+    }
+  });
+});
 
 
 
