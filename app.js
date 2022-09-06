@@ -1,3 +1,7 @@
+const taskList = document.querySelector("#taskList");
+let sortAlphabeticallyButton = document.querySelector("#alphabeticalButton");
+let allButton = document.querySelector("#allButton");
+
 class Tasks {
   _tasks = {};
 
@@ -21,27 +25,44 @@ class Tasks {
     }
   };
 
-  renderAll() {
-    let taskList = document.querySelector("#taskList");
-    for (let item in this._tasks) {
+  static sortAlphabetically(tasks) {
+    let sortedTasks = this._tasks.sort()
+  }
+
+  render(option) {
+    let allTasks = this._tasks;
+    taskList.innerHTML = "";
+    if (option == "alphabetical") {
+      console.log("alphabetical");
+      const ordered = Object.keys(allTasks).sort().reduce(
+        (obj, key) => {
+          obj[key] = allTasks[key];
+          return obj;
+        },
+        {}
+        );
+        allTasks = ordered;
+      }
+    console.log("allTasks: ")
+    console.log(allTasks);
+    for (let item in allTasks) {
+      console.log(item);
       let HTML =  /*HTML*/ `
       <section class="taskCategory">
-        <div class="taskCategory__category">
+        <div id="${item}" class="taskCategory__category" onclick="console.log(event)">
           <div class="taskCategory__category-icon">Icon</div>
           <div>${item}</div>
         </div>
         <section class="taskCategory__category--content">
       `;
 
-      // let content = document.querySelector(".taskCategory__category--content");
-
-      for (let task in this._tasks[item].tasks) {
-        console.log(`task: ${this._tasks[item].tasks[task].title}`);
+      for (let task in allTasks[item].tasks) {
+        // console.log(`task: ${this._tasks[item].tasks[task].title}`);
         HTML += /*HTML*/`
         <article class="taskCategory__category--content-card">
         <header class="taskCategory__category--content__card-header">
-        <p class="taskCategory__category--content__card-dateCreated">${this._tasks[item].tasks[task].dateCreated}</p>
-        <h3>${this._tasks[item].tasks[task].title}</h3>
+        <p class="taskCategory__category--content__card-dateCreated">${allTasks[item].tasks[task].dateCreated}</p>
+        <h3>${allTasks[item].tasks[task].title}</h3>
         </header>
         </article>
         `;
@@ -55,12 +76,14 @@ class Tasks {
 
       taskList.innerHTML += HTML;
 
-      console.log(HTML);
+      // console.log(HTML);
 
     }
 
   }
 }
+
+
 
 // Checks if it is the first time that the application is opened
 let checkIfFirstTimeOpened = () => {
@@ -86,7 +109,7 @@ else {
 
 
 let allTasks = {
-  category1: {
+  list: {
     icon: "URL",
     tasks: [
       {
@@ -105,7 +128,7 @@ let allTasks = {
       }
     ]
   },
-  category2: {
+  category: {
     icon: "URL",
     tasks: [
       {
@@ -120,7 +143,7 @@ let allTasks = {
         title: "title4",
         description: "description4",
         dateCreated: "date created4",
-        dueDate: "Due date2"
+        dueDate: "Due date2",
       }
     ]
   }
@@ -128,29 +151,44 @@ let allTasks = {
 
 taskObject = new Tasks(allTasks);
 
-taskObject.renderAll();
-// console.log(taskObject.getTasks);
-taskObject.getIcons();
+taskObject.render("all");
+
+// creates accordion out of each category
+const createAccordion = () => {
+  const accordions = document.querySelectorAll(".taskCategory__category");
+  accordions.forEach(accordion => {
+    accordion.addEventListener("click", () => {
+      const content = accordion.nextElementSibling;
+      
+      accordion.classList.toggle('taskCategory__category--active');
+      
+      if (accordion.classList.contains('taskCategory__category--active')) {
+        content.style.maxHeight = content.scrollHeight + 'px';
+      }
+      else {
+        content.style.maxHeight = 0;
+      }
+    });
+  })
+};
+createAccordion();
 
 
-// Created acordion element
-const accordions = document.querySelectorAll(".taskCategory__category");
-accordions.forEach(accordion => {
-  accordion.addEventListener("click", () => {
-    const content = accordion.nextElementSibling;
+let sortAlphabetically = () => {
+  taskObject.render("alphabetical");
+  createAccordion();
+};
 
-    accordion.classList.toggle('taskCategory__category--active');
-
-    if (accordion.classList.contains('taskCategory__category--active')) {
-      content.style.maxHeight = content.scrollHeight + 'px';
-    }
-    else {
-      content.style.maxHeight = 0;
-    }
-  });
-});
+let renderAll = () => {
+  taskObject.render("all")
+  createAccordion();
+}
 
 
+// Onclick events
+
+sortAlphabeticallyButton.onclick = sortAlphabetically;
+allButton.onclick = renderAll;
 
 
 
