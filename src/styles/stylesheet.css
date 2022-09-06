@@ -50,7 +50,8 @@ body {
 /* Basic styling for main section */
 main {
     display: flex;
-    grid-template-columns: auto auto;
+    flex-direction: column;
+    align-items: flex-start;
     height: 90vh;
     width: 90vw;
     padding: 2%;
@@ -171,45 +172,6 @@ nav:hover {
     fill: url(#MyGradient);
 }
 
-/* Styling for waves at bottom of html body */
-.waves {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 10vh;
-    z-index: 0;
-}
-
-/* Animation for waves parallax */
-.parallax>use {
-    animation: move-forever 40s cubic-bezier(.55, .5, .45, .5) infinite;
-}
-
-/* Animation for first wave  */
-.parallax>use:nth-child(1) {
-    animation-delay: -2s;
-    animation-duration: 7s;
-}
-
-/* Animation for second wave  */
-.parallax>use:nth-child(2) {
-    animation-delay: -3s;
-    animation-duration: 10s;
-}
-
-/* Animation for third wave  */
-.parallax>use:nth-child(3) {
-    animation-delay: -4s;
-    animation-duration: 13s;
-}
-
-/* Animation for fourth wave  */
-.parallax>use:nth-child(4) {
-    animation-delay: -5s;
-    animation-duration: 20s;
-}
-
 /* Styling for searchbar div */
 .search {
     position: relative;
@@ -251,6 +213,32 @@ nav:hover {
     transition: color 0.3s ease-in-out;
 }
 
+/* Styling for the tasks section */
+.taskList {
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    background: rgb(89, 89, 89);
+    /* overflow-x: scroll; */
+}
+
+/* Styling for the scrollbar inside of taskList */
+.taskList::-webkit-scrollbar {
+    width: 0;
+    height: 10px;
+}
+
+/* Styling for the scrollbar thumb inside of taskList */
+.taskList::-webkit-scrollbar-thumb {
+    background: #3aa1c9;
+    border-radius: 10px;
+}
+
+/* Styling for the scrollbar track inside of taskList */
+.taskList::-webkit-scrollbar-track {
+    background: transparent;
+}
+
 .taskCategory {
     margin: 1rem;
     width: calc(100% - 2rem);
@@ -258,7 +246,7 @@ nav:hover {
 
 .taskCategory__category {
     display: flex;
-    width: 90%;
+    width: 60%;
     height: 3rem;
     padding: 1%;
     background: #fff;
@@ -295,10 +283,10 @@ nav:hover {
 }
 
 .taskCategory__category--content-card:last-child {
-    margin-right: 1.5rem;
+    margin-right: 4rem;
 }
 
-.taskCategory__category--content-card:not(:first-child) {
+.taskCategory__category--content-card:not(:nth-child(1)) {
     margin-left: -1rem;
     transition: all .3s ease-in-out;
 }
@@ -313,32 +301,12 @@ nav:hover {
     transition: all .3s ease-in-out;
 }
 
-/* Styling for the tasks section */
-.taskList {
-    width: 100%;
-    height: 100%;
-    overflow-y: scroll;
-    /* overflow-x: scroll; */
-}
-
-.taskList::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-}
-
-.taskList::-webkit-scrollbar-thumb {
-    background: #3aa1c9;
-    border-radius: 10px;
-}
-
-.taskList::-webkit-scrollbar-track {
-    background: transparent;
-}
-
+/* When the category is opened */
 .taskCategory__category--active {
     background: rgb(128, 242, 255);
 }
 
+/* Styling for the content box where cards and tasks are placed in */
 .taskCategory__category--content {
     overflow: hidden;
     max-height: 0; 
@@ -346,16 +314,56 @@ nav:hover {
     transition: max-height 0.2s;
 }
 
+/* Styling for cursor following mouse */
 .cursor {
     position: absolute;
     width: 40px;
     height: 40px;
     border: solid 1px rgb(160, 160, 160);
-    border-radius: 50%;
-    transition-duration: 100ms;
+    border-radius: 30%;
+    transition-duration: 200ms;
     transition-timing-function: ease-out;
     pointer-events: none;
     z-index: 999;
+}
+
+/* Styling for waves at bottom of html body */
+.waves {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 10vh;
+    z-index: 0;
+}
+
+/* Animation for waves parallax */
+.parallax>use {
+    animation: move-forever 40s cubic-bezier(.55, .5, .45, .5) infinite;
+}
+
+/* Animation for first wave  */
+.parallax>use:nth-child(1) {
+    animation-delay: -2s;
+    animation-duration: 7s;
+}
+
+/* Animation for second wave  */
+.parallax>use:nth-child(2) {
+    animation-delay: -3s;
+    animation-duration: 10s;
+}
+
+/* Animation for third wave  */
+.parallax>use:nth-child(3) {
+    animation-delay: -4s;
+    animation-duration: 13s;
+}
+
+/* Animation for fourth wave  */
+.parallax>use:nth-child(4) {
+    animation-delay: -5s;
+    animation-duration: 20s;
 }
 
 /* Animation for all waves animation */
@@ -391,12 +399,7 @@ nav:hover {
     main {
         flex-direction: column;
         align-items: center;
-        flex-wrap: wrap;
-    }
-
-    .main__main {
-        width: 100%;
-        align-items: center;
+        /* flex-wrap: wrap; */
     }
 
     .cursor {
@@ -405,6 +408,10 @@ nav:hover {
 
     .taskList {
         width: 80%;
+    }
+
+    .taskCategory__category {
+        width: 100%;
     }
 }
 
