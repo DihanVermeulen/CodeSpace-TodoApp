@@ -1,6 +1,8 @@
 const taskList = document.querySelector("#taskList");
-let sortAlphabeticallyButton = document.querySelector("#alphabeticalButton");
-let allButton = document.querySelector("#allButton");
+const sortAlphabeticallyButton = document.querySelector("#alphabeticalButton");
+const allButton = document.querySelector("#allButton");
+const addCategoryModalButton = document.querySelector("#addCategoryModalButton");
+let localStorageTasks = {};
 
 class Tasks {
   _tasks = {};
@@ -25,24 +27,26 @@ class Tasks {
     }
   };
 
-  static sortAlphabetically(tasks) {
-    let sortedTasks = this._tasks.sort()
-  }
+  createCategory(categoryName, chosenIcon) {
+    this._tasks[categoryName] = {};
+    this._tasks[categoryName].icon = chosenIcon;
+    this._tasks[categoryName].tasks = [];
+  };
 
   render(option) {
     let allTasks = this._tasks;
     taskList.innerHTML = "";
     if (option == "alphabetical") {
       console.log("alphabetical");
-      const ordered = Object.keys(allTasks).sort().reduce(
+      const sortedAlphabetically = Object.keys(allTasks).sort().reduce(
         (obj, key) => {
           obj[key] = allTasks[key];
           return obj;
         },
         {}
-        );
-        allTasks = ordered;
-      }
+      );
+      allTasks = sortedAlphabetically;
+    }
     console.log("allTasks: ")
     console.log(allTasks);
     for (let item in allTasks) {
@@ -57,7 +61,6 @@ class Tasks {
       `;
 
       for (let task in allTasks[item].tasks) {
-        // console.log(`task: ${this._tasks[item].tasks[task].title}`);
         HTML += /*HTML*/`
         <article class="taskCategory__category--content-card">
         <header class="taskCategory__category--content__card-header">
@@ -68,7 +71,6 @@ class Tasks {
         `;
       }
 
-
       HTML += /*HTML*/ `
           </section>
         </section>
@@ -76,37 +78,32 @@ class Tasks {
 
       taskList.innerHTML += HTML;
 
-      // console.log(HTML);
-
     }
 
   }
 }
 
-
-
-// Checks if it is the first time that the application is opened
-let checkIfFirstTimeOpened = () => {
-  check = localStorage.getItem("isFirstTimeOpened");
-  if (check) {
-    localStorage.setItem("isFirstTimeOpened", false);
-    // console.log("Not the first time opened")
-    return false;
+// checks if there are tasks and assigns tasks to localStorageTasks if there are
+let isTasksCreated = () => {
+  let tasks = localStorage.getItem("tasks");
+  if (tasks) {
+    console.log("there are tasks");
+    localStorageTasks = JSON.parse(tasks);
   }
   else {
-    localStorage.setItem("isFirstTimeOpened", true);
-    // console.log("First time opened")
-    return true;
+    console.log("there are no tasks");
+    localStorage.setItem("tasks", "");
   }
-}
-
-if (checkIfFirstTimeOpened()) {
-  console.log("First time opened")
-}
-else {
-  console.log("Not first time opened")
 };
+isTasksCreated();
 
+taskObject = new Tasks(localStorageTasks);
+
+taskObject.render("all");
+taskObject.createCategory("bleh", "chosenIcon");
+console.log("ALL TASKS:")
+console.log(taskObject.getTasks);
+taskObject.render("all");
 
 let allTasks = {
   list: {
@@ -117,14 +114,16 @@ let allTasks = {
         title: "title1",
         description: "description1",
         dateCreated: "date created1",
-        dueDate: "Due date1"
+        dueDate: "Due date1",
+        completed: false,
       },
       {
         id: 1,
         title: "title2",
         description: "description2",
         dateCreated: "date created2",
-        dueDate: "Due date2"
+        dueDate: "Due date2",
+        completed: false,
       }
     ]
   },
@@ -136,7 +135,8 @@ let allTasks = {
         title: "title3",
         description: "description3",
         dateCreated: "date created3",
-        dueDate: "Due date1"
+        dueDate: "Due date1",
+        completed: false,
       },
       {
         id: 3,
@@ -144,14 +144,11 @@ let allTasks = {
         description: "description4",
         dateCreated: "date created4",
         dueDate: "Due date2",
+        completed: true,
       }
     ]
   }
 }
-
-taskObject = new Tasks(allTasks);
-
-taskObject.render("all");
 
 // creates accordion out of each category
 const createAccordion = () => {
@@ -159,9 +156,9 @@ const createAccordion = () => {
   accordions.forEach(accordion => {
     accordion.addEventListener("click", () => {
       const content = accordion.nextElementSibling;
-      
+
       accordion.classList.toggle('taskCategory__category--active');
-      
+
       if (accordion.classList.contains('taskCategory__category--active')) {
         content.style.maxHeight = content.scrollHeight + 'px';
       }
@@ -173,26 +170,54 @@ const createAccordion = () => {
 };
 createAccordion();
 
-
+// TOOLBAR BUTTON FUNCTIONS
+// SORTS CATEGORIES ALPHABETICALLY
 let sortAlphabetically = () => {
   taskObject.render("alphabetical");
   createAccordion();
 };
-
+// RENDERS ALL CATEGORIES INSIDE OF TASKLIST 
 let renderAll = () => {
   taskObject.render("all")
   createAccordion();
 }
 
+// MODAL BUTTON FUNCTIONS
+// CREATES CATEGORY
+let createCategory = (event) => {
+  event.preventDefault;
+  let categoryInput = document.querySelector("#categoryInput");
+
+  if (!categoryInput.value == "") {
+    console.log(categoryInput.value);
+    let findDuplicateCategory = () => {
+      for (let item in taskObject.getTasks) {
+        if (item == categoryInput.value) return true
+      }
+    }
+    let duplicateCategoryError = document.querySelector("#duplicateCategoryError");
+    if (findDuplicateCategory()) {
+      console.log("found duplicate category");
+      duplicateCategoryError.style.display = 'block';
+    }
+    else {
+      duplicateCategoryError.style.display = 'none';
+      taskObject.createCategory(categoryInput.value, "icon");
+      taskObject.render("all");
+      createAccordion();
+      categoryInput.value = "";
+    }
+  }
+  else {
+    return void 0;
+  }
+}
+
 
 // Onclick events
-
 sortAlphabeticallyButton.onclick = sortAlphabetically;
 allButton.onclick = renderAll;
-
-
-
-
+addCategoryModalButton.onclick = createCategory;
 
 // To make the .cursor div follow the user's cursor
 const cursor = document.querySelector(".cursor");
