@@ -1,17 +1,5 @@
 @import url(../components/task-list/task-list.css);
 
-:root {
-    --primary-light: #8abdff;
-    --primary: #6d5dfc;
-    --primary-dark: #5b0eeb;
-
-    --white: #FFFFFF;
-    --greyLight-1: #E4EBF5;
-    --greyLight-2: #c8d0e7;
-    --greyLight-3: #bec8e4;
-    --greyDark: #9baacf;
-}
-
 /* Styling for h1 heading with animation on startup */
 h1 {
     animation: 1s ease-out 0s 1 resize;
@@ -102,7 +90,8 @@ main {
     border-bottom-left-radius: 1rem;
 }
 
-.btn-group__item:hover, .btn-group__item:focus {
+.btn-group__item:hover,
+.btn-group__item:focus {
     color: #000;
     box-shadow: inset 0px -20px 0px -15px #3aa1c9;
     background: linear-gradient(90deg, rgb(90, 175, 255), rgb(103, 237, 255));
@@ -141,7 +130,7 @@ nav:hover {
 }
 
 /* Styling for toolbar buttons */
-.toolBar .toolBar__button {
+.toolBar__button {
     cursor: pointer;
     display: flex;
     justify-content: center;
@@ -156,13 +145,35 @@ nav:hover {
         -.2rem -.2rem .5rem rgb(126, 126, 126);
 }
 
+.neomorphicButton {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    border: 0;
+    align-items: center;
+    border-radius: 10%;
+    padding: 1%;
+    color: #fff;
+    margin: 1rem;
+    background: #4e4e4e;
+    /* box-shadow: .3rem .3rem .6rem black,
+        -.2rem -.2rem .5rem rgb(126, 126, 126); */
+}
+
+.errorMessage {
+    background: rgb(255, 111, 111);
+    color: #000;
+    padding: 1%;
+    display: none;
+}
+
 /* styling for toolbar button icons */
 .toolBar__button svg {
     width: 2rem;
 }
 
 /* Changes style of toolbar buttons when being pressed on */
-.toolBar__button:active {
+.toolBar__button:active, .neomorphicButton:active {
     box-shadow: inset .2rem .2rem .2rem black,
         inset -.2rem -.2rem .2rem rgb(126, 126, 126);
 }
@@ -170,148 +181,6 @@ nav:hover {
 /* Changes toolbar button icon colour to gradient defined in html file */
 .toolBar__button:hover>svg path {
     fill: url(#MyGradient);
-}
-
-/* Styling for searchbar div */
-.search {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
-/* Styling for searchbar */
-.search__input {
-    width: 100%;
-    height: 2rem;
-    border: none;
-    border-radius: 10px;
-    font-size: 1.4rem;
-    padding-left: 3.8rem;
-    box-shadow: inset .2rem .2rem .2rem black,
-        inset -.2rem -.2rem .2rem rgb(126, 126, 126);
-    background: none;
-    font-family: inherit;
-    color: var(--greyDark);
-}
-
-/* Styling for searchbar when it is on focus */
-.search__input:focus {
-    outline: none;
-    box-shadow: .3rem .3rem .6rem black,
-        -.2rem -.2rem .5rem rgb(126, 126, 126);
-    transition: box-shadow 2s ease;
-}
-
-/* Styling for searchbar placeholder */
-.search__input::placeholder {
-    color: black;
-}
-
-/* Changes placeholder colour when focused on */
-.search__input:focus::placeholder {
-    color: #fff;
-    transition: color 0.3s ease-in-out;
-}
-
-/* Styling for the tasks section */
-.taskList {
-    width: 100%;
-    height: 100%;
-    overflow-y: scroll;
-    background: rgb(89, 89, 89);
-    /* overflow-x: scroll; */
-}
-
-/* Styling for the scrollbar inside of taskList */
-.taskList::-webkit-scrollbar {
-    width: 0;
-    height: 10px;
-}
-
-/* Styling for the scrollbar thumb inside of taskList */
-.taskList::-webkit-scrollbar-thumb {
-    background: #3aa1c9;
-    border-radius: 10px;
-}
-
-/* Styling for the scrollbar track inside of taskList */
-.taskList::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.taskCategory {
-    margin: 1rem;
-    width: calc(100% - 2rem);
-}
-
-.taskCategory__category {
-    display: flex;
-    width: 60%;
-    height: 3rem;
-    padding: 1%;
-    background: #fff;
-    color: #000;
-    border-radius: 10px;
-    cursor: pointer;
-    box-shadow: 4px 2px 7px 4px rgba(0, 0, 0, 0.5);
-    -webkit-box-shadow: 4px 2px 7px 4px rgba(0, 0, 0, 0.5);
-}
-
-.taskCategory__category--content {
-    display: flex;
-    font-family: 'DM Mono', monospace;
-    white-space: no-wrap;
-    width: fit-content;
-    overflow-x: scroll;
-}
-
-.taskCategory__category--content-card {
-    display: flex;
-    flex-direction: column;
-    width: 10rem;
-    height: 12rem;
-    padding: 1rem;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    border-radius: 10px;
-    background-color: #303030;
-    box-shadow: -.1rem 0 1rem #000;
-}
-
-.taskCategory__category--content-card:first-child {
-    margin-left: 1.5rem;
-}
-
-.taskCategory__category--content-card:last-child {
-    margin-right: 4rem;
-}
-
-.taskCategory__category--content-card:not(:nth-child(1)) {
-    margin-left: -1rem;
-    transition: all .3s ease-in-out;
-}
-
-.taskCategory__category--content-card:hover {
-    transform: translateY(-.5rem);
-    transition: all .3s ease-in-out;
-}
-
-.taskCategory__category--content-card:hover ~ .taskCategory__category--content-card {
-    transform: translateX(50px);
-    transition: all .3s ease-in-out;
-}
-
-/* When the category is opened */
-.taskCategory__category--active {
-    background: rgb(128, 242, 255);
-}
-
-/* Styling for the content box where cards and tasks are placed in */
-.taskCategory__category--content {
-    overflow: hidden;
-    max-height: 0; 
-    padding: 0;
-    transition: max-height 0.2s;
 }
 
 /* Styling for cursor following mouse */
