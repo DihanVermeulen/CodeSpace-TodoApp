@@ -33,6 +33,19 @@ class Tasks {
     this._tasks[categoryName].tasks = [];
   };
 
+  deleteCategory(e) {
+    let tasks = this._tasks;
+    console.log("clicked delete button");
+    let id = e.target.parentNode.parentNode.parentNode.id;
+    // let id = e.target;
+    console.log("Out of object: id: " + id);
+    console.log("before delete tasks");
+    console.log(tasks);
+    delete tasks[id];
+    console.log("after delete tasks");
+    console.log(tasks);
+  };
+
   render(option) {
     let allTasks = this._tasks;
     taskList.innerHTML = "";
@@ -50,12 +63,27 @@ class Tasks {
     console.log("allTasks: ")
     console.log(allTasks);
     for (let item in allTasks) {
+      let colours = ['red', 'blue', 'green', 'yellow', 'purple', 'orange'];
+      let colour = Math.floor(Math.random() * colours.length);
+      let randomColour = colours[colour];
       console.log(item);
+      console.log(allTasks[item].icon)
       let HTML =  /*HTML*/ `
       <section class="taskCategory">
-        <div id="${item}" class="taskCategory__category" onclick="console.log(event)">
-          <div class="taskCategory__category-icon">Icon</div>
-          <div>${item}</div>
+        <div id="${item}" class="taskCategory__category">
+          <div class="taskCategory__category-left">
+          
+            <img style="background: ${randomColour};" class="taskCategory__category-icon" src="src/images/${allTasks[item].icon}.png" alt="tasks">
+         
+          </div>  
+          <div class="taskCategory__category-center">
+            <div>${item}</div>
+            <div style="color:grey;">Created: 08-08-2022</div>
+          </div>
+          <div class="taskCategory__category-right">
+            <div id="plusButton" class="neomorphicButton"><img src="src/images/plus.svg"></div>
+            <div id="deleteButton" class="neomorphicButton" ondblclick="deleteCategory(event)"><img src="src/images/delete.svg"></div>
+          </div>
         </div>
         <section class="taskCategory__category--content">
       `;
@@ -83,7 +111,9 @@ class Tasks {
   }
 }
 
-// checks if there are tasks and assigns tasks to localStorageTasks if there are
+/**
+ * CHECKS IF THERE ARE TASKS, THEN ASSIGNS TASKS TO localStorageTasks VARIABLE
+ */
 let isTasksCreated = () => {
   let tasks = localStorage.getItem("tasks");
   if (tasks) {
@@ -97,12 +127,10 @@ let isTasksCreated = () => {
 };
 isTasksCreated();
 
+/**
+ * CREATES NEW TASK OBJECT THEN RENDERS TASKS TO DOM
+ */
 taskObject = new Tasks(localStorageTasks);
-
-taskObject.render("all");
-taskObject.createCategory("bleh", "chosenIcon");
-console.log("ALL TASKS:")
-console.log(taskObject.getTasks);
 taskObject.render("all");
 
 let allTasks = {
@@ -150,14 +178,19 @@ let allTasks = {
   }
 }
 
-// creates accordion out of each category
+/**
+ * CREATES ACCORDION OUT OF EACH CATEGORY
+ */
 const createAccordion = () => {
-  const accordions = document.querySelectorAll(".taskCategory__category");
+  const accordions = document.querySelectorAll(".taskCategory__category-center");
   accordions.forEach(accordion => {
     accordion.addEventListener("click", () => {
-      const content = accordion.nextElementSibling;
+      // const content = accordion.nextElementSibling;
+      const content = accordion.parentElement.nextElementSibling;
+      console.log(content);
+      let parentAccordion = accordion.parentElement;
 
-      accordion.classList.toggle('taskCategory__category--active');
+      parentAccordion.classList.toggle('taskCategory__category--active');
 
       if (accordion.classList.contains('taskCategory__category--active')) {
         content.style.maxHeight = content.scrollHeight + 'px';
@@ -171,22 +204,32 @@ const createAccordion = () => {
 createAccordion();
 
 // TOOLBAR BUTTON FUNCTIONS
-// SORTS CATEGORIES ALPHABETICALLY
+/** 
+ * SORTS CATEGORIES ALPHABETICALLY
+*/
 let sortAlphabetically = () => {
   taskObject.render("alphabetical");
   createAccordion();
 };
-// RENDERS ALL CATEGORIES INSIDE OF TASKLIST 
+/**
+ * RENDERS ALL CATEGORIES INSIDE OF TASKLIST 
+ */
 let renderAll = () => {
   taskObject.render("all")
   createAccordion();
 }
 
-// MODAL BUTTON FUNCTIONS
-// CREATES CATEGORY
+// CATEGORY FUNCTIONS
+/**
+ * CREATES A CATEGORY
+ * @param {string} event - event of form that creates a category. 
+ */
 let createCategory = (event) => {
   event.preventDefault;
   let categoryInput = document.querySelector("#categoryInput");
+  let icons = ["work", "study", "home", "tasks"];
+  let icon = Math.floor(Math.random() * icons.length);
+  let randomIcon = icons[icon];
 
   if (!categoryInput.value == "") {
     console.log(categoryInput.value);
@@ -202,7 +245,7 @@ let createCategory = (event) => {
     }
     else {
       duplicateCategoryError.style.display = 'none';
-      taskObject.createCategory(categoryInput.value, "icon");
+      taskObject.createCategory(categoryInput.value, randomIcon);
       taskObject.render("all");
       createAccordion();
       categoryInput.value = "";
@@ -213,6 +256,14 @@ let createCategory = (event) => {
   }
 }
 
+/**
+ * DELETES A CATEGORY
+ */
+const deleteCategory = (event) => {
+  console.log(event);
+  taskObject.deleteCategory(event);
+  taskObject.render("all");
+};
 
 // Onclick events
 sortAlphabeticallyButton.onclick = sortAlphabetically;
