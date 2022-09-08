@@ -153,11 +153,12 @@ nav:hover {
     align-items: center;
     border-radius: 10%;
     padding: 1%;
-    color: #fff;
     margin: 1rem;
-    background: #4e4e4e;
-    /* box-shadow: .3rem .3rem .6rem black,
-        -.2rem -.2rem .5rem rgb(126, 126, 126); */
+    box-shadow: .2rem .2rem .1rem rgb(100, 100, 100)
+}
+
+.neomorphicButton:active {
+    box-shadow: .1rem .1rem .1rem black
 }
 
 .errorMessage {
@@ -173,7 +174,7 @@ nav:hover {
 }
 
 /* Changes style of toolbar buttons when being pressed on */
-.toolBar__button:active, .neomorphicButton:active {
+.toolBar__button:active {
     box-shadow: inset .2rem .2rem .2rem black,
         inset -.2rem -.2rem .2rem rgb(126, 126, 126);
 }
