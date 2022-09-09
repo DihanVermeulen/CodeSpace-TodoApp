@@ -18,6 +18,10 @@ Just as a basic to-do app; you can create tasks as well as categories where the 
 It has basic features such as being able to sort categories alphabetically, as well as sorting task in
 categories alphabetically, and filtering tasks.
 
+## Coming features
+
+ - Ability to pick an icon for your created category
+
 ### Credits
 
 This app was created by Dihan Vermeulen, 
