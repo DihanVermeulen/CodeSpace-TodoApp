@@ -16,6 +16,8 @@
         crossorigin="anonymous"></script>
     <!-- link to runtime script -->
     <script defer src="src/runtime.js"></script>
+    <!-- link to tasks modal functions -->
+    <script src="src/components/tasks-modal/tasks-modal.js"></script>
     <!-- link to main app script -->
     <script defer src="src/app.js"></script>
     <title>Todo</title>
@@ -32,20 +34,22 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Create Category</h5>
+                    <h5 class="modal-title">Create Category</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="#">
                     <div class="modal-body">
                         <div class="form-floating">
-                            <input type="text" class="form-control" id="categoryInput" required>
+                            <input type="text" class="form-control" id="categoryInput" placeholder="Enter Category"
+                                required>
                             <label for="floatingCategoryName">Input Category Name</label>
                         </div>
                     </div>
 
                     <div class="modal-footer">
                         <p class="errorMessage" id="duplicateCategoryError">Found duplicate category</p>
-                        <input type="submit" id="addCategoryModalButton" class="neomorphicButton" value="Add Category"></input>
+                        <input type="submit" id="addCategoryModalButton" class="neomorphicButton"
+                            value="Add Category"></input>
                     </div>
                 </form>
             </div>
@@ -82,74 +86,44 @@
                     onclick="sortAlphabetically()">Alphabetical</button>
                 <button id="activeButton" class="btn-group__item">Active</button>
                 <button id="completedButton" class="btn-group__item">Completed</button>
+                <button class="btn-group__item" onclick="showTasks()">show tasks</button>
+            </div>
+        </div>
+
+        <!-- ADD TASKS MODAL -->
+        <div class="modal addTasksModal" id="addTasksModal" aria-labelledby="addTasksModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" style="color: black;">Add Task</h5>
+                        <button id="closeAddTasksModal" type="button" class="btn-close"
+                            onclick="closeTasksModal()"></button>
+                    </div>
+                    <form action="#">
+                        <div class="modal-body">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="taskInput" required
+                                    placeholder="Enter task">
+                                <label class="modal-lable" for="floatingTaskName">Input Task</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="date" class="form-control" id="dateInput" required>
+                                <label class="modal-lable" for="floatingDate">Enter Due Date</label>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <input type="submit" id="addTasksModalButton" class="neomorphicButton" value="Add Task"
+                                onclick="addTask(event)"></input>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
 
         <!-- SECTION WHERE TASKS ARE DISPLAYED -->
         <div id="taskList" class="taskList">
 
-            <section class="taskCategory">
-
-                <div onclick="console.log(event)" class="taskCategory__category">
-                    <div class="taskCategory__category-icon">Icon</div>
-                    <div>
-                        <h4>Work</h4>
-                        <p>Created: 08-09-2022</p>
-                    </div>
-                </div>
-
-                <section class="taskCategory__category--content">
-
-                    <article class="taskCategory__category--content-card">
-                        <header class="taskCategory__category--content__card-header">
-                            <p class="taskCategory__category--content__card-dateCreated">2022-09-02</p>
-                            <h3>Go swimming</h3>
-                        </header>
-                    </article>
-
-                    <article class="taskCategory__category--content-card">
-                        <header class="taskCategory__category--content__card-header">
-                            <p class="taskCategory__category--content__card-dateCreated">2022-09-02</p>
-                            <h3>Go swimming</h3>
-                        </header>
-                    </article>
-
-                    <article class="taskCategory__category--content-card">
-                        <header class="taskCategory__category--content__card-header">
-                            <p class="taskCategory__category--content__card-dateCreated">2022-09-02</p>
-                            <h3>Go swimming</h3>
-                        </header>
-                    </article>
-
-                    <article class="taskCategory__category--content-card">
-                        <header class="taskCategory__category--content__card-header">
-                            <p class="taskCategory__category--content__card-dateCreated">2022-09-02</p>
-                            <h3>Do homework</h3>
-                        </header>
-                    </article>
-
-                    <article class="taskCategory__category--content-card">
-                        <header class="taskCategory__category--content__card-header">
-                            <p class="taskCategory__category--content__card-dateCreated">2022-09-02</p>
-                            <h3>Do homework</h3>
-                        </header>
-                    </article>
-                    <article class="taskCategory__category--content-card">
-                        <header class="taskCategory__category--content__card-header">
-                            <p class="taskCategory__category--content__card-dateCreated">2022-09-02</p>
-                            <h3>Do homework</h3>
-                        </header>
-                    </article>
-                    <article class="taskCategory__category--content-card">
-                        <header class="taskCategory__category--content__card-header">
-                            <p class="taskCategory__category--content__card-dateCreated">2022-09-02</p>
-                            <h3>Do homework</h3>
-                        </header>
-                    </article>
-
-                </section>
-
-            </section>
         </div>
     </main>
 
