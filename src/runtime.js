@@ -13,15 +13,10 @@ let checkIfFirstTimeOpened = () => {
     }
 }
 
-let firstTimeOpened = Boolean;
-
+// IF IT IS THE FIRST TIME THAT THE APPLICATION IS OPENED THE INFORMATION MODAL WILL BE OPENED
 if (checkIfFirstTimeOpened()) {
-    console.log("First time opened")
-    firstTimeOpened = true;
+    const informationModal = document.querySelector("#informationModal");
+    informationModal.style.display = "block";
+    console.log("First time opened");
 }
-else {
-    console.log("Not first time opened")
-    firstTimeOpened = false;
-};
-
 

@@ -1,5 +1,6 @@
 @import url(../components/task-list/task-list.css);
 @import url(../components/tasks-modal/tasks-modal.css);
+@import url(../components/information-modal/information-modal.css);
 
 /* Styling for h1 heading with animation on startup */
 h1 {
@@ -260,11 +261,6 @@ nav:hover {
 
 /* Media query for devices below 600px */
 @media screen and (max-width: 800px) {
-    nav {
-        display: none;
-        width: 80px;
-        margin-left: calc(100vw - 100px);
-    }
 
     main {
         flex-direction: column;
@@ -282,19 +278,5 @@ nav:hover {
 
     .taskCategory__category {
         width: 100%;
-    }
-}
-
-/* Media query for devices below 1200px */
-@media screen and (max-width: 1200px) {
-    nav {
-        margin-left: calc(100vw - 150px);
-    }
-}
-
-/* Media query for devices above 1200px */
-@media screen and (min-width: 1200px) {
-    nav {
-        margin-left: calc(100vw - 200px);
     }
 }

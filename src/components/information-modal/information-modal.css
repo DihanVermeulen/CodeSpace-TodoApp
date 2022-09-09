@@ -1,0 +1,28 @@
+#informationModal {
+    position: absolute;
+    font-family: Arial, Helvetica, sans-serif;
+    color: black;
+    background: rgba(0, 0, 0, 0.3);
+    display: none;
+}
+
+#informationModal h5 {
+    color: grey;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+#closeInformationModalButton {
+    outline: none;
+    border: none;
+    transition: all 0.05s linear;
+}
+
+#closeInformationModalButton:active {
+    outline: rgba(77, 228, 251, 0.5) 5px solid;
+}
+
+#informationButton {
+    cursor: pointer;
+    font-size: 2rem;
+    position: static;
+}

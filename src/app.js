@@ -2,6 +2,7 @@ const taskList = document.querySelector("#taskList");
 const sortAlphabeticallyButton = document.querySelector("#alphabeticalButton");
 const allButton = document.querySelector("#allButton");
 const addCategoryModalButton = document.querySelector("#addCategoryModalButton");
+const addTasksModalButton = document.querySelector("#addTasksModalButton");
 let localStorageTasks = {};
 
 class Tasks {
@@ -22,8 +23,8 @@ class Tasks {
    */
   addTask(taskDesc, date) {
     let id = sessionStorage.getItem('addTaskCategoryID');
-    let completed = false;
-    let currentDate = new Date().toJSON().slice(0, 10);
+    let completed = "unchecked";
+    let currentDate = this.getCurrentDate;
 
     let newTask = {}
     newTask.description = taskDesc;
@@ -35,6 +36,10 @@ class Tasks {
     this.saveToLocalStorage();
   };
 
+  get getCurrentDate() {
+    return new Date().toJSON().slice(0, 10)
+  }
+
   getIcons() {
     for (let item in this._tasks) {
       console.log(item);
@@ -44,6 +49,7 @@ class Tasks {
 
   createCategory(categoryName, chosenIcon) {
     this._tasks[categoryName] = {};
+    this._tasks[categoryName].dateCreated = this.getCurrentDate;
     this._tasks[categoryName].icon = chosenIcon;
     this._tasks[categoryName].tasks = [];
   };
@@ -88,8 +94,8 @@ class Tasks {
       let colours = ['red', 'blue', 'green', 'yellow', 'purple', 'orange'];
       let colour = Math.floor(Math.random() * colours.length);
       let randomColour = colours[colour];
-      console.log("item: " + item);
-      console.log("icon: " + allTasks[item].icon)
+
+      // HTML FOR CATEGORY
       let HTML =  /*HTML*/ `
       <section class="taskCategory">
         <div id="${item}" class="taskCategory__category">
@@ -100,7 +106,7 @@ class Tasks {
           </div>  
           <div class="taskCategory__category-center">
             <div>${item}</div>
-            <div style="color:grey;">Created: 08-08-2022</div>
+            <div style="color:grey;">Created: ${allTasks[item].dateCreated}</div>
           </div>
           <div class="taskCategory__category-right">
             <div id="plusButton" class="neomorphicButton" onclick="saveIdToSessionStorage(event)">
@@ -111,14 +117,17 @@ class Tasks {
         <section class="taskCategory__category--content">
       `;
 
+      // HTML FOR CARDS
       for (let task in allTasks[item].tasks) {
-        console.log('render tasks: ')
-        console.log(allTasks[item].tasks[task].description)
         HTML += /*HTML*/`
         <article class="taskCategory__category--content-card">
         <header class="taskCategory__category--content__card-header">
-        <p class="taskCategory__category--content__card-dateCreated">${allTasks[item].tasks[task].dateCreated}</p>
+        <p class="taskCategory__category--content__card-dateCreated"> Date Created: ${allTasks[item].tasks[task].dateCreated}</p>
         <h4>${allTasks[item].tasks[task].description}</h4>
+        <div>
+          <label for="completed">completed</label>
+          <input type="checkbox" name="completed" ${allTasks[item].tasks[task].completed}>
+        </div>
         </header>
         </article>
         `;
@@ -155,7 +164,7 @@ isTasksCreated();
 /**
  * CREATES NEW TASK OBJECT THEN RENDERS TASKS TO DOM
  */
-taskObject = new Tasks(localStorageTasks);
+let taskObject = new Tasks(localStorageTasks);
 taskObject.render("all");
 
 const showTasks = () => {
@@ -177,7 +186,6 @@ const createAccordion = () => {
 
       if (parentAccordion.classList.contains('taskCategory__category--active')) {
         content.style.maxHeight = content.scrollHeight + 'px';
-        console.log('contains taskCategory__category--active ')
       }
       else {
         content.style.maxHeight = 0;
@@ -185,6 +193,7 @@ const createAccordion = () => {
     });
   })
 };
+// IMMEDIATELY GETS CALLED UPON LOADING
 createAccordion();
 
 // TOOLBAR BUTTON FUNCTIONS
@@ -261,31 +270,30 @@ const saveIdToSessionStorage = (e) => {
   openAddTasksModal();
 };
 
-/**
- *  CREATES TASKS INSIDE OF CATEGORY 
- */
- const addTask = (e) => {
-  e.preventDefault();
-  let taskInput = document.querySelector("#taskInput");
-  let dateInput = document.querySelector("#dateInput");
-  console.log(e);
-  if (taskInput.value.length != 0 && dateInput.value.length != 0) {
-      taskObject.addTask(taskInput.value, dateInput.value);
-      renderAll()
-      taskInput.value = "";
-      dateInput.value = "";
-  }
-  else {
-      console.log("input is empty");
-  }
-}
-
-// Onclick events
+// ONCLICK EVENTS
 sortAlphabeticallyButton.onclick = sortAlphabetically;
 allButton.onclick = renderAll;
 addCategoryModalButton.onclick = createCategory;
+/**
+ *  CREATES TASKS INSIDE OF CATEGORY 
+ */
+addTasksModalButton.addEventListener("click", (event) => {
+  event.preventDefault();
+  let taskInput = document.querySelector("#taskInput");
+  let dateInput = document.querySelector("#dateInput");
+  console.log(event);
+  if (taskInput.value.length != 0 && dateInput.value.length != 0) {
+    taskObject.addTask(taskInput.value, dateInput.value);
+    renderAll()
+    taskInput.value = "";
+    dateInput.value = "";
+  }
+  else {
+    console.log("input is empty");
+  }
+});
 
-// To make the .cursor div follow the user's cursor
+// MAKES THE .cursor DIV FOLLOW USER'S CURSOR
 const cursor = document.querySelector(".cursor");
 
 document.addEventListener('mousemove', e => {
