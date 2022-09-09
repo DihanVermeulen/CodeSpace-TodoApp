@@ -1,12 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- bootstrap css link -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <!-- Custom css -->
+    <link rel="stylesheet" href="src/styles/stylesheet.css">
+    <!-- bootstrap javascript script -->
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+        crossorigin="anonymous"></script>
+    <!-- link to runtime script -->
+    <script defer src="src/runtime.js"></script>
+    <!-- link to tasks modal functions -->
+    <script src="src/components/tasks-modal/tasks-modal.js"></script>
+    <!-- link to main app script -->
+    <script defer src="src/app.js"></script>
     <title>Todo</title>
 </head>
+
 <body>
-    
+    <!-- CURSOR DIV THAT FOLLOWS DIV -->
+    <div class="cursor"></div>
+
+    <nav></nav>
+
+    <!-- ADD CATEGORY MODAL -->
+    <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create Category</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="#">
+                    <div class="modal-body">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="categoryInput" placeholder="Enter Category"
+                                required>
+                            <label for="floatingCategoryName">Input Category Name</label>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <p class="errorMessage" id="duplicateCategoryError">Found duplicate category</p>
+                        <input type="submit" id="addCategoryModalButton" class="neomorphicButton"
+                            value="Add Category"></input>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN SECTION WHERE CONTENT IS PLACED -->
+    <main>
+        <h1>Hello User this is your to-do list</h1>
+
+        <!-- TOOLBAR FOR INTERACTING WITH TASKS SECTION -->
+        <div class="toolBar">
+
+            <!-- BUTTON TO OPEN MODAL AND CREATE A NEW CATEGORY -->
+            <div id="addButton" class="toolBar__button" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
+                <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M30 7.5C42.375 7.5 52.5 17.625 52.5 30C52.5 42.375 42.375 52.5 30 52.5C17.625 52.5 7.5 42.375 7.5 30C7.5 17.625 17.625 7.5 30 
+                        7.5ZM30 3.75C15.5625 3.75 3.75 15.5625 3.75 30C3.75 44.4375 15.5625 56.25 30 56.25C44.4375 56.25 56.25 44.4375 56.25 30C56.25 15.5625 
+                        44.4375 3.75 30 3.75Z" fill="white" />
+                    <path d="M45 28.125H31.875V15H28.125V28.125H15V31.875H28.125V45H31.875V31.875H45V28.125Z"
+                        fill="white" />
+
+                    <linearGradient id="MyGradient">
+                        <stop offset="5%" stop-color="rgb(90, 175, 255)" />
+                        <stop offset="95%" stop-color="rgb(103, 237, 255)" />
+                    </linearGradient>
+                </svg>
+
+            </div>
+
+            <div class="btn-group">
+                <button id="allButton" class="btn-group__item btn-group__item">All</button>
+                <button id="alphabeticalButton" class="btn-group__item btn-group__item"
+                    onclick="sortAlphabetically()">Alphabetical</button>
+                <button id="activeButton" class="btn-group__item">Active</button>
+                <button id="completedButton" class="btn-group__item">Completed</button>
+                <button class="btn-group__item" onclick="showTasks()">show tasks</button>
+            </div>
+        </div>
+
+        <!-- ADD TASKS MODAL -->
+        <div class="modal addTasksModal" id="addTasksModal" aria-labelledby="addTasksModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" style="color: black;">Add Task</h5>
+                        <button id="closeAddTasksModal" type="button" class="btn-close"
+                            onclick="closeTasksModal()"></button>
+                    </div>
+                    <form action="#">
+                        <div class="modal-body">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="taskInput" required
+                                    placeholder="Enter task">
+                                <label class="modal-lable" for="floatingTaskName">Input Task</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="date" class="form-control" id="dateInput" required>
+                                <label class="modal-lable" for="floatingDate">Enter Due Date</label>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <input type="submit" id="addTasksModalButton" class="neomorphicButton" value="Add Task"
+                                onclick="addTask(event)"></input>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION WHERE TASKS ARE DISPLAYED -->
+        <div id="taskList" class="taskList">
+
+        </div>
+    </main>
+
+    <!-- Waves at the bottom of screen -->
+    <div>
+        <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+            viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+            <defs>
+                <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+            </defs>
+            <g class="parallax">
+                <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(253, 255, 234, 0.5)" />
+                <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255, 0.5)" />
+                <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(253,255,234, 0.3)" />
+            </g>
+        </svg>
+    </div>
 </body>
+
 </html>

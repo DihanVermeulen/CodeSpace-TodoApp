@@ -1,0 +1,135 @@
+/* Styling for the tasks section */
+.taskList {
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    background: rgb(89, 89, 89);
+}
+
+/* Styling for the scrollbar inside of taskList */
+.taskList::-webkit-scrollbar {
+    width: 0;
+    height: 10px;
+}
+
+/* Styling for the scrollbar thumb inside of taskList */
+.taskList::-webkit-scrollbar-thumb {
+    background: #3aa1c9;
+    border-radius: 10px;
+}
+
+/* Styling for the scrollbar track inside of taskList */
+.taskList::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.taskCategory {
+    margin: 1rem;
+    width: calc(100% - 2rem);
+}
+
+.taskCategory__category {
+    display: flex;
+    width: 60%;
+    height: 4rem;
+    /* padding: 2%; */
+    background: #fff;
+    color: #000;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: .5rem .6rem .5rem rgba(0, 0, 0, 0.5);
+}
+
+/* When the category is opened */
+.taskCategory__category--active {
+    box-shadow: .2rem .2rem .1rem rgba(0, 0, 0, 0.5);
+
+}
+
+#deleteButton {
+    background: red;
+}
+
+.taskCategory__category .taskCategory__category-left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.taskCategory__category-center {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 2%;
+    width: 100%;
+}
+
+.taskCategory__category-right {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 2%;
+}
+
+.taskCategory__category-icon {
+    width: 3rem;
+    height: 3rem;
+    margin: 5px;
+    border: 2px solid grey;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.taskCategory__category--content {
+    display: flex;
+    font-family: 'DM Mono', monospace;
+    white-space: no-wrap;
+    width: fit-content;
+    overflow-x: scroll;
+}
+
+.taskCategory__category--content-card {
+    display: flex;
+    flex-direction: column;
+    width: 10rem;
+    height: 12rem;
+    padding: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    background-color: #303030;
+    box-shadow: -.1rem 0 1rem #000;
+}
+
+.taskCategory__category--content-card:first-child {
+    margin-left: 1.5rem;
+}
+
+.taskCategory__category--content-card:last-child {
+    margin-right: 4rem;
+}
+
+.taskCategory__category--content-card:not(:nth-child(1)) {
+    margin-left: -1rem;
+    transition: all .3s ease-in-out;
+}
+
+.taskCategory__category--content-card:hover {
+    transform: translateY(-.5rem);
+    transition: all .3s ease-in-out;
+}
+
+.taskCategory__category--content-card:hover~.taskCategory__category--content-card {
+    transform: translateX(50px);
+    transition: all .3s ease-in-out;
+}
+
+
+/* Styling for the content box where cards and tasks are placed in */
+.taskCategory__category--content {
+    overflow: hidden;
+    max-height: 0;
+    padding: 0;
+    transition: max-height 0.2s;
+}

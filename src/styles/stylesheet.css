@@ -1,0 +1,300 @@
+@import url(../components/task-list/task-list.css);
+@import url(../components/tasks-modal/tasks-modal.css);
+
+/* Styling for h1 heading with animation on startup */
+h1 {
+    animation: 1s ease-out 0s 1 resize;
+    transform-origin: left;
+}
+
+/* Changes heading colour when hovering */
+h1:hover {
+    background: linear-gradient(90deg, rgb(90, 175, 255), rgb(103, 237, 255));
+    text-shadow: none;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: all 2s linear;
+}
+
+/* Basic styling for body */
+body {
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    overflow-y: hidden;
+    /* background: rgb(108, 0, 191) linear-gradient(0deg, rgba(144, 0, 255, 0.3) 31%, rgba(251, 0, 255, 0.5)); */
+    background: url(../images/main_bg.svg);
+    background-repeat: no-repeat;
+    /* background-position: center; */
+    background-size: cover;
+}
+
+/* Basic styling for main section */
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 90vh;
+    width: 90vw;
+    padding: 2%;
+    border-radius: 10px;
+    background: #4e4e4e;
+    background-repeat: no-repeat;
+    background-position: bottom;
+    background-size: 100%;
+    color: #fff;
+    z-index: 1;
+    /* box-shadow: .6rem .3rem .3rem black; */
+}
+
+.main__main {
+    display: flex;
+    height: 100%;
+    width: 50%;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.btn-group {
+    border-radius: 1rem;
+    height: 3rem;
+    margin: 1rem;
+    background: #4e4e4e;
+    box-shadow: .3rem .3rem .6rem black,
+        -.2rem -.2rem .5rem rgb(126, 126, 126);
+}
+
+.btn-group__item {
+    border: none;
+    background: #4e4e4e;
+    color: #fff;
+    cursor: pointer;
+    margin: 0;
+    box-shadow: inset 0px 0px 0px -15px #3aa1c9;
+    transition: all 300ms ease-out;
+}
+
+.btn-group__item:last-child {
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+}
+
+.btn-group__item:first-child {
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+}
+
+.btn-group__item:hover,
+.btn-group__item:focus {
+    color: #000;
+    box-shadow: inset 0px -20px 0px -15px #3aa1c9;
+    background: linear-gradient(90deg, rgb(90, 175, 255), rgb(103, 237, 255));
+    text-shadow: none;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Basic styling for navigation */
+nav {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    align-items: center;
+    height: 100vh;
+    width: 80px;
+    right: 0;
+    background: #0084ff;
+    z-index: 2;
+    transition: .3s linear;
+}
+
+/* Expands navigation when hovered */
+nav:hover {
+    width: 250px;
+}
+
+/* Styling for toolbar for task list */
+.toolBar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem;
+}
+
+/* Styling for toolbar buttons */
+.toolBar__button {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    margin: 1rem;
+    font-size: 1.5rem;
+    background: #4e4e4e;
+    box-shadow: .3rem .3rem .6rem black,
+        -.2rem -.2rem .5rem rgb(126, 126, 126);
+}
+
+.neomorphicButton {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    border: 0;
+    align-items: center;
+    padding: 1%;
+    margin: 1rem;
+    box-shadow: .2rem .2rem .1rem rgb(100, 100, 100)
+}
+
+.neomorphicButton:active {
+    box-shadow: .1rem .1rem .1rem black
+}
+
+.errorMessage {
+    background: rgb(255, 111, 111);
+    color: #000;
+    padding: 1%;
+    display: none;
+}
+
+/* styling for toolbar button icons */
+.toolBar__button svg {
+    width: 2rem;
+}
+
+/* Changes style of toolbar buttons when being pressed on */
+.toolBar__button:active {
+    box-shadow: inset .2rem .2rem .2rem black,
+        inset -.2rem -.2rem .2rem rgb(126, 126, 126);
+}
+
+/* Changes toolbar button icon colour to gradient defined in html file */
+.toolBar__button:hover>svg path {
+    fill: url(#MyGradient);
+}
+
+/* Styling for cursor following mouse */
+.cursor {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border: solid 1px rgb(160, 160, 160);
+    border-radius: 30%;
+    transition-duration: 200ms;
+    transition-timing-function: ease-out;
+    pointer-events: none;
+    z-index: 999;
+}
+
+/* Styling for waves at bottom of html body */
+.waves {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 10vh;
+    z-index: 0;
+}
+
+/* Animation for waves parallax */
+.parallax>use {
+    animation: move-forever 40s cubic-bezier(.55, .5, .45, .5) infinite;
+}
+
+/* Animation for first wave  */
+.parallax>use:nth-child(1) {
+    animation-delay: -2s;
+    animation-duration: 7s;
+}
+
+/* Animation for second wave  */
+.parallax>use:nth-child(2) {
+    animation-delay: -3s;
+    animation-duration: 10s;
+}
+
+/* Animation for third wave  */
+.parallax>use:nth-child(3) {
+    animation-delay: -4s;
+    animation-duration: 13s;
+}
+
+/* Animation for fourth wave  */
+.parallax>use:nth-child(4) {
+    animation-delay: -5s;
+    animation-duration: 20s;
+}
+
+/* Animation for all waves animation */
+@keyframes move-forever {
+    0% {
+        transform: translate3d(-90px, 0, 0);
+    }
+
+    100% {
+        transform: translate3d(85px, 0, 0);
+    }
+}
+
+/* Animation for resizing element */
+@keyframes resize {
+    0% {
+        transform: scale(0);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Media query for devices below 600px */
+@media screen and (max-width: 800px) {
+    nav {
+        display: none;
+        width: 80px;
+        margin-left: calc(100vw - 100px);
+    }
+
+    main {
+        flex-direction: column;
+        align-items: center;
+        /* flex-wrap: wrap; */
+    }
+
+    .cursor {
+        display: none;
+    }
+
+    .taskList {
+        width: 80%;
+    }
+
+    .taskCategory__category {
+        width: 100%;
+    }
+}
+
+/* Media query for devices below 1200px */
+@media screen and (max-width: 1200px) {
+    nav {
+        margin-left: calc(100vw - 150px);
+    }
+}
+
+/* Media query for devices above 1200px */
+@media screen and (min-width: 1200px) {
+    nav {
+        margin-left: calc(100vw - 200px);
+    }
+}
