@@ -2,6 +2,7 @@ const taskList = document.querySelector("#taskList");
 const sortAlphabeticallyButton = document.querySelector("#alphabeticalButton");
 const allButton = document.querySelector("#allButton");
 const addCategoryModalButton = document.querySelector("#addCategoryModalButton");
+const addTasksModalButton = document.querySelector("#addTasksModalButton");
 let localStorageTasks = {};
 
 class Tasks {
@@ -11,6 +12,9 @@ class Tasks {
     this._tasks = tasks
   }
 
+  /**
+   * USED TO GET ALL TASKS
+   */
   get getTasks() {
     return this._tasks;
   }
@@ -22,10 +26,14 @@ class Tasks {
    */
   addTask(taskDesc, date) {
     let id = sessionStorage.getItem('addTaskCategoryID');
-    let completed = false;
-    let currentDate = new Date().toJSON().slice(0, 10);
+    let completed = "unchecked";
+    let currentDate = this.getCurrentDate;
+
+    let taskId = this._tasks[id].tasks.length;
+    console.log("new task id: " + taskId);
 
     let newTask = {}
+    newTask.id = taskId;
     newTask.description = taskDesc;
     newTask.dateCreated = currentDate;
     newTask.dueDate = date;
@@ -35,24 +43,30 @@ class Tasks {
     this.saveToLocalStorage();
   };
 
-  getIcons() {
-    for (let item in this._tasks) {
-      console.log(item);
-      console.log(this._tasks[item].tasks)
-    }
-  };
+  /**
+   * GETS CURRENT DATE
+   */
+  get getCurrentDate() {
+    return new Date().toJSON().slice(0, 10)
+  }
 
+  /**
+   * CREATES A CATEGORY
+   */
   createCategory(categoryName, chosenIcon) {
     this._tasks[categoryName] = {};
+    this._tasks[categoryName].dateCreated = this.getCurrentDate;
     this._tasks[categoryName].icon = chosenIcon;
     this._tasks[categoryName].tasks = [];
   };
 
+  /**
+   * DELETES CATEGORY
+   */
   deleteCategory(e) {
     let tasks = this._tasks;
     console.log("clicked delete button");
     let id = e.target.parentNode.parentNode.parentNode.id;
-    // let id = e.target;
     console.log("Out of object: id: " + id);
     console.log("before delete tasks");
     console.log(tasks);
@@ -61,12 +75,44 @@ class Tasks {
     console.log(tasks);
   };
 
+  checkTask(taskId, categoryId, isComplete) {
+    if (isComplete) {
+      console.log("completed");
+      for (let task of this._tasks[categoryId].tasks) {
+        console.log(task);
+        if (task.id == taskId) {
+          console.log(task.id);
+          task.completed = 'checked';
+          console.log(task);
+        }
+      }
+    }
+    else {
+      console.log('not completed');
+      for (let task of this._tasks[categoryId].tasks) {
+        console.log(task);
+        if (task.id == taskId) {
+          console.log(task.id);
+          task.completed = 'unchecked';
+          console.log(task)
+        }
+      }
+    }
+  }
+
+  /**
+   * SAVES this._tasks to local storage
+   */
   saveToLocalStorage() {
     let jsonData = JSON.stringify(this._tasks);
     console.log(jsonData);
     localStorage.setItem("tasks", jsonData);
   }
 
+  /**
+   * RENERS TASKS TO DOM
+   * @param {*} option - option to sort tasks or filter tasks based on user input. 
+   */
   render(option) {
     let allTasks = this._tasks;
     console.log('rendering');
@@ -88,8 +134,8 @@ class Tasks {
       let colours = ['red', 'blue', 'green', 'yellow', 'purple', 'orange'];
       let colour = Math.floor(Math.random() * colours.length);
       let randomColour = colours[colour];
-      console.log("item: " + item);
-      console.log("icon: " + allTasks[item].icon)
+
+      // HTML FOR CATEGORY
       let HTML =  /*HTML*/ `
       <section class="taskCategory">
         <div id="${item}" class="taskCategory__category">
@@ -100,7 +146,7 @@ class Tasks {
           </div>  
           <div class="taskCategory__category-center">
             <div>${item}</div>
-            <div style="color:grey;">Created: 08-08-2022</div>
+            <div style="color:grey;">Created: ${allTasks[item].dateCreated}</div>
           </div>
           <div class="taskCategory__category-right">
             <div id="plusButton" class="neomorphicButton" onclick="saveIdToSessionStorage(event)">
@@ -111,14 +157,17 @@ class Tasks {
         <section class="taskCategory__category--content">
       `;
 
+      // HTML FOR CARDS
       for (let task in allTasks[item].tasks) {
-        console.log('render tasks: ')
-        console.log(allTasks[item].tasks[task].description)
         HTML += /*HTML*/`
         <article class="taskCategory__category--content-card">
         <header class="taskCategory__category--content__card-header">
-        <p class="taskCategory__category--content__card-dateCreated">${allTasks[item].tasks[task].dateCreated}</p>
+        <p class="taskCategory__category--content__card-dateCreated"> Date Created: ${allTasks[item].tasks[task].dateCreated}</p>
         <h4>${allTasks[item].tasks[task].description}</h4>
+        <div>
+          <label for="completed">completed</label>
+          <input id="${allTasks[item].tasks[task].id}" class="cardCheckbox" onchange="checkCheckbox(event)" type="checkbox" name="completed" ${allTasks[item].tasks[task].completed}>
+        </div>
         </header>
         </article>
         `;
@@ -155,7 +204,7 @@ isTasksCreated();
 /**
  * CREATES NEW TASK OBJECT THEN RENDERS TASKS TO DOM
  */
-taskObject = new Tasks(localStorageTasks);
+let taskObject = new Tasks(localStorageTasks);
 taskObject.render("all");
 
 const showTasks = () => {
@@ -177,7 +226,6 @@ const createAccordion = () => {
 
       if (parentAccordion.classList.contains('taskCategory__category--active')) {
         content.style.maxHeight = content.scrollHeight + 'px';
-        console.log('contains taskCategory__category--active ')
       }
       else {
         content.style.maxHeight = 0;
@@ -185,6 +233,7 @@ const createAccordion = () => {
     });
   })
 };
+// IMMEDIATELY GETS CALLED UPON LOADING
 createAccordion();
 
 // TOOLBAR BUTTON FUNCTIONS
@@ -205,10 +254,9 @@ let renderAll = () => {
 
 // CATEGORY FUNCTIONS
 /**
- * CREATES A CATEGORY
- * @param {string} event - event of form that creates a category. 
+ * CREATES A CATEGORY 
  */
-let createCategory = (event) => {
+const createCategory = (event) => {
   event.preventDefault;
   let categoryInput = document.querySelector("#categoryInput");
   let icons = ["work", "study", "home", "tasks"];
@@ -261,33 +309,51 @@ const saveIdToSessionStorage = (e) => {
   openAddTasksModal();
 };
 
-/**
- *  CREATES TASKS INSIDE OF CATEGORY 
- */
- const addTask = (e) => {
-  e.preventDefault();
-  let taskInput = document.querySelector("#taskInput");
-  let dateInput = document.querySelector("#dateInput");
-  console.log(e);
-  if (taskInput.value.length != 0 && dateInput.value.length != 0) {
-      taskObject.addTask(taskInput.value, dateInput.value);
-      renderAll()
-      taskInput.value = "";
-      dateInput.value = "";
-  }
-  else {
-      console.log("input is empty");
-  }
-}
-
-// Onclick events
+// ONCLICK EVENTS
 sortAlphabeticallyButton.onclick = sortAlphabetically;
 allButton.onclick = renderAll;
 addCategoryModalButton.onclick = createCategory;
 
-// To make the .cursor div follow the user's cursor
-const cursor = document.querySelector(".cursor");
+/**
+ *  CREATES TASKS INSIDE OF CATEGORY 
+ */
+addTasksModalButton.addEventListener("click", (event) => {
+  event.preventDefault();
+  let taskInput = document.querySelector("#taskInput");
+  let dateInput = document.querySelector("#dateInput");
+  console.log(event);
+  if (taskInput.value.length != 0 && dateInput.value.length != 0) {
+    taskObject.addTask(taskInput.value, dateInput.value);
+    renderAll()
+    taskInput.value = "";
+    dateInput.value = "";
+  }
+  else {
+    console.log("input is empty");
+  }
+});
 
+/**
+ *  CHECKS VALUE OF CHECKBOX THEN SAVES VALUE INTO TASK'S {COMPLETED} KEY 
+ */
+const checkCheckbox = (e) => {
+  console.log('checkbox');
+  let id = e.target.id;
+  let categoryId = e.target.parentElement.parentElement.parentElement.parentElement.previousElementSibling.id;
+  let checkbox = e.target;
+  console.log(checkbox);
+  if (checkbox.checked) {
+    taskObject.checkTask(id, categoryId, true);
+    taskObject.saveToLocalStorage();
+  }
+  else {
+    taskObject.checkTask(id, categoryId, false);
+    taskObject.saveToLocalStorage();
+  }
+};
+
+// MAKES THE .cursor DIV FOLLOW USER'S CURSOR
+const cursor = document.querySelector(".cursor");
 document.addEventListener('mousemove', e => {
   cursor.setAttribute("style", "top: " + (e.pageY - 20) + "px; left: " + (e.pageX - 20) + "px;");
 })

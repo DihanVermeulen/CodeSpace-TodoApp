@@ -1,9 +1,11 @@
-.addTasksModal {
+/* STYLING TO THE TASKS MODAL */
+#addTasksModal {
     position: absolute;
     background: rgba(0, 0, 0, 0.3);
     display: none;
 }
 
+/* STYLING TO THE MODAL LABLE */
 .modal-lable {
     color: black;
 }

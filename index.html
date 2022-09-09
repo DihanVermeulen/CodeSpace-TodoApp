@@ -18,6 +18,8 @@
     <script defer src="src/runtime.js"></script>
     <!-- link to tasks modal functions -->
     <script src="src/components/tasks-modal/tasks-modal.js"></script>
+    <!-- LINK TO INFORMATION MODAL FUNCTIONS -->
+    <script src="src/components/information-modal/information-modal.js"></script>
     <!-- link to main app script -->
     <script defer src="src/app.js"></script>
     <title>Todo</title>
@@ -27,17 +29,15 @@
     <!-- CURSOR DIV THAT FOLLOWS DIV -->
     <div class="cursor"></div>
 
-    <nav></nav>
-
     <!-- ADD CATEGORY MODAL -->
-    <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Create Category</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="#">
+                <form>
                     <div class="modal-body">
                         <div class="form-floating">
                             <input type="text" class="form-control" id="categoryInput" placeholder="Enter Category"
@@ -80,18 +80,18 @@
 
             </div>
 
-            <div class="btn-group">
-                <button id="allButton" class="btn-group__item btn-group__item">All</button>
-                <button id="alphabeticalButton" class="btn-group__item btn-group__item"
-                    onclick="sortAlphabetically()">Alphabetical</button>
-                <button id="activeButton" class="btn-group__item">Active</button>
-                <button id="completedButton" class="btn-group__item">Completed</button>
-                <button class="btn-group__item" onclick="showTasks()">show tasks</button>
+            <div class="d-flex align-items-center">
+                <div class="btn-group">
+                    <button id="allButton" class="btn-group__item btn-group__item">All</button>
+                    <button id="alphabeticalButton" class="btn-group__item btn-group__item"
+                        onclick="sortAlphabetically()">Alphabetical</button>
+                </div>
+                <div id="informationButton" onclick="showInformationModal()">?</div>
             </div>
         </div>
 
         <!-- ADD TASKS MODAL -->
-        <div class="modal addTasksModal" id="addTasksModal" aria-labelledby="addTasksModal">
+        <div class="modal" id="addTasksModal" aria-labelledby="addTasksModal">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -99,9 +99,9 @@
                         <button id="closeAddTasksModal" type="button" class="btn-close"
                             onclick="closeTasksModal()"></button>
                     </div>
-                    <form action="#">
+                    <form>
                         <div class="modal-body">
-                            <div class="form-floating">
+                            <div class="form-floating m-2">
                                 <input type="text" class="form-control" id="taskInput" required
                                     placeholder="Enter task">
                                 <label class="modal-lable" for="floatingTaskName">Input Task</label>
@@ -113,10 +113,36 @@
                         </div>
 
                         <div class="modal-footer">
-                            <input type="submit" id="addTasksModalButton" class="neomorphicButton" value="Add Task"
-                                onclick="addTask(event)"></input>
+                            <input type="submit" id="addTasksModalButton" class="neomorphicButton"
+                                value="Add Task"></input>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- INFORMATION MODAL -->
+        <div class="modal" id="informationModal" tabindex="-1" aria-labelledby="informationModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">How to use:</h5>
+                    </div>
+                    <div class="modal-body">
+                        <ul>
+                            <li>To add a category, press the button on the left with a <strong>+</strong> inside and
+                                enter the
+                                category information</li>
+                            <li>To delete a category, double click on the delete button inside of the category</li>
+                            <li>To add a task, click on the <strong>+</strong> inside of the category</li>
+                            <li>To view tasks, click in the middle of category to open dropdown</li>
+                        </ul>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button id="closeInformationModalButton" onclick="closeInformationModal()">OK</button>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -127,7 +153,7 @@
         </div>
     </main>
 
-    <!-- Waves at the bottom of screen -->
+    <!-- WAVES AT BOTTOM OF SCREEN -->
     <div>
         <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
             viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
