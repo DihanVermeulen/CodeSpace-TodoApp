@@ -15,9 +15,24 @@ class Tasks {
     return this._tasks;
   }
 
-  setTask(category, task = {}, description, dueDate) {
-    // Enter category
-    // Add new task item as object
+  /**
+   * CREATES TASK OBJECT AND APPENDS TO CATEGORY TASKS
+   * @param {*} taskDesc - description of the task.
+   * @param {*} date - date that the task is created. 
+   */
+  addTask(taskDesc, date) {
+    let id = sessionStorage.getItem('addTaskCategoryID');
+    let completed = false;
+    let currentDate = new Date().toJSON().slice(0, 10);
+
+    let newTask = {}
+    newTask.description = taskDesc;
+    newTask.dateCreated = currentDate;
+    newTask.dueDate = date;
+    newTask.completed = completed;
+
+    this._tasks[id].tasks.push(newTask);
+    this.saveToLocalStorage();
   };
 
   getIcons() {
@@ -46,8 +61,15 @@ class Tasks {
     console.log(tasks);
   };
 
+  saveToLocalStorage() {
+    let jsonData = JSON.stringify(this._tasks);
+    console.log(jsonData);
+    localStorage.setItem("tasks", jsonData);
+  }
+
   render(option) {
     let allTasks = this._tasks;
+    console.log('rendering');
     taskList.innerHTML = "";
     if (option == "alphabetical") {
       console.log("alphabetical");
@@ -66,8 +88,8 @@ class Tasks {
       let colours = ['red', 'blue', 'green', 'yellow', 'purple', 'orange'];
       let colour = Math.floor(Math.random() * colours.length);
       let randomColour = colours[colour];
-      console.log(item);
-      console.log(allTasks[item].icon)
+      console.log("item: " + item);
+      console.log("icon: " + allTasks[item].icon)
       let HTML =  /*HTML*/ `
       <section class="taskCategory">
         <div id="${item}" class="taskCategory__category">
@@ -81,7 +103,8 @@ class Tasks {
             <div style="color:grey;">Created: 08-08-2022</div>
           </div>
           <div class="taskCategory__category-right">
-            <div id="plusButton" class="neomorphicButton"><img src="src/images/plus.svg"></div>
+            <div id="plusButton" class="neomorphicButton" onclick="saveIdToSessionStorage(event)">
+            <img src="src/images/plus.svg"></div>
             <div id="deleteButton" class="neomorphicButton" ondblclick="deleteCategory(event)"><img src="src/images/delete.svg"></div>
           </div>
         </div>
@@ -89,11 +112,13 @@ class Tasks {
       `;
 
       for (let task in allTasks[item].tasks) {
+        console.log('render tasks: ')
+        console.log(allTasks[item].tasks[task].description)
         HTML += /*HTML*/`
         <article class="taskCategory__category--content-card">
         <header class="taskCategory__category--content__card-header">
         <p class="taskCategory__category--content__card-dateCreated">${allTasks[item].tasks[task].dateCreated}</p>
-        <h3>${allTasks[item].tasks[task].title}</h3>
+        <h4>${allTasks[item].tasks[task].description}</h4>
         </header>
         </article>
         `;
@@ -133,49 +158,8 @@ isTasksCreated();
 taskObject = new Tasks(localStorageTasks);
 taskObject.render("all");
 
-let allTasks = {
-  list: {
-    icon: "URL",
-    tasks: [
-      {
-        id: 0,
-        title: "title1",
-        description: "description1",
-        dateCreated: "date created1",
-        dueDate: "Due date1",
-        completed: false,
-      },
-      {
-        id: 1,
-        title: "title2",
-        description: "description2",
-        dateCreated: "date created2",
-        dueDate: "Due date2",
-        completed: false,
-      }
-    ]
-  },
-  category: {
-    icon: "URL",
-    tasks: [
-      {
-        id: 2,
-        title: "title3",
-        description: "description3",
-        dateCreated: "date created3",
-        dueDate: "Due date1",
-        completed: false,
-      },
-      {
-        id: 3,
-        title: "title4",
-        description: "description4",
-        dateCreated: "date created4",
-        dueDate: "Due date2",
-        completed: true,
-      }
-    ]
-  }
+const showTasks = () => {
+  console.log(taskObject.getTasks);
 }
 
 /**
@@ -185,15 +169,15 @@ const createAccordion = () => {
   const accordions = document.querySelectorAll(".taskCategory__category-center");
   accordions.forEach(accordion => {
     accordion.addEventListener("click", () => {
-      // const content = accordion.nextElementSibling;
+      console.log('clicking accordion');
       const content = accordion.parentElement.nextElementSibling;
-      console.log(content);
       let parentAccordion = accordion.parentElement;
 
       parentAccordion.classList.toggle('taskCategory__category--active');
 
-      if (accordion.classList.contains('taskCategory__category--active')) {
+      if (parentAccordion.classList.contains('taskCategory__category--active')) {
         content.style.maxHeight = content.scrollHeight + 'px';
+        console.log('contains taskCategory__category--active ')
       }
       else {
         content.style.maxHeight = 0;
@@ -248,6 +232,7 @@ let createCategory = (event) => {
       taskObject.createCategory(categoryInput.value, randomIcon);
       taskObject.render("all");
       createAccordion();
+      taskObject.saveToLocalStorage();
       categoryInput.value = "";
     }
   }
@@ -263,7 +248,37 @@ const deleteCategory = (event) => {
   console.log(event);
   taskObject.deleteCategory(event);
   taskObject.render("all");
+  taskObject.saveToLocalStorage();
 };
+
+/**
+ * SAVES ID OF SELECTED CATEGORY IN SESSION STORAGE 
+ */
+const saveIdToSessionStorage = (e) => {
+  let id = e.target.parentNode.parentNode.parentNode.id;
+  console.log(id);
+  sessionStorage.setItem("addTaskCategoryID", id);
+  openAddTasksModal();
+};
+
+/**
+ *  CREATES TASKS INSIDE OF CATEGORY 
+ */
+ const addTask = (e) => {
+  e.preventDefault();
+  let taskInput = document.querySelector("#taskInput");
+  let dateInput = document.querySelector("#dateInput");
+  console.log(e);
+  if (taskInput.value.length != 0 && dateInput.value.length != 0) {
+      taskObject.addTask(taskInput.value, dateInput.value);
+      renderAll()
+      taskInput.value = "";
+      dateInput.value = "";
+  }
+  else {
+      console.log("input is empty");
+  }
+}
 
 // Onclick events
 sortAlphabeticallyButton.onclick = sortAlphabetically;
