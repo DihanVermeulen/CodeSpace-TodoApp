@@ -1,4 +1,5 @@
 @import url(../components/task-list/task-list.css);
+@import url(../components/tasks-modal/tasks-modal.css);
 
 /* Styling for h1 heading with animation on startup */
 h1 {
@@ -151,7 +152,6 @@ nav:hover {
     justify-content: center;
     border: 0;
     align-items: center;
-    border-radius: 10%;
     padding: 1%;
     margin: 1rem;
     box-shadow: .2rem .2rem .1rem rgb(100, 100, 100)
