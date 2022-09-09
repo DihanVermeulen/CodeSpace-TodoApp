@@ -26,7 +26,11 @@ class Tasks {
     let completed = "unchecked";
     let currentDate = this.getCurrentDate;
 
+    let taskId = this._tasks[id].tasks.length;
+    console.log("new task id: " + taskId);
+
     let newTask = {}
+    newTask.id = taskId;
     newTask.description = taskDesc;
     newTask.dateCreated = currentDate;
     newTask.dueDate = date;
@@ -66,6 +70,32 @@ class Tasks {
     console.log("after delete tasks");
     console.log(tasks);
   };
+
+  checkTask(taskId, categoryId, isComplete) {
+    if (isComplete) {
+      console.log("completed");
+      for (let task of this._tasks[categoryId].tasks) {
+        console.log(task);
+        if (task.id == taskId) {
+          console.log(task.id);
+          task.completed = 'checked';
+          console.log(task);
+        }
+      }
+    }
+    else {
+      console.log('not completed');
+      for (let task of this._tasks[categoryId].tasks) {
+        console.log(task);
+        if (task.id == taskId) {
+          console.log(task.id);
+          task.completed = 'unchecked';
+          console.log(task)
+        }
+      }
+    }
+
+  }
 
   saveToLocalStorage() {
     let jsonData = JSON.stringify(this._tasks);
@@ -126,7 +156,7 @@ class Tasks {
         <h4>${allTasks[item].tasks[task].description}</h4>
         <div>
           <label for="completed">completed</label>
-          <input type="checkbox" name="completed" ${allTasks[item].tasks[task].completed}>
+          <input id="${allTasks[item].tasks[task].id}" class="cardCheckbox" onchange="checkCheckbox(event)" type="checkbox" name="completed" ${allTasks[item].tasks[task].completed}>
         </div>
         </header>
         </article>
@@ -217,7 +247,7 @@ let renderAll = () => {
  * CREATES A CATEGORY
  * @param {string} event - event of form that creates a category. 
  */
-let createCategory = (event) => {
+const createCategory = (event) => {
   event.preventDefault;
   let categoryInput = document.querySelector("#categoryInput");
   let icons = ["work", "study", "home", "tasks"];
@@ -292,6 +322,25 @@ addTasksModalButton.addEventListener("click", (event) => {
     console.log("input is empty");
   }
 });
+
+/**
+ *  CHECKS VALUE OF CHECKBOX THEN SAVES VALUE INTO TASK'S COMPLETED KEY 
+ */
+const checkCheckbox = (e) => {
+  console.log('checkbox');
+  let id = e.target.id;
+  let categoryId = e.target.parentElement.parentElement.parentElement.parentElement.previousElementSibling.id;
+  let checkbox = e.target;
+  console.log(checkbox);
+  if (checkbox.checked) {
+    taskObject.checkTask(id, categoryId, true);
+    taskObject.saveToLocalStorage();
+  }
+  else {
+    taskObject.checkTask(id, categoryId, false);
+    taskObject.saveToLocalStorage();
+  }
+};
 
 // MAKES THE .cursor DIV FOLLOW USER'S CURSOR
 const cursor = document.querySelector(".cursor");
