@@ -1,0 +1,9 @@
+.addTasksModal {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.3);
+    display: none;
+}
+
+.modal-lable {
+    color: black;
+}
