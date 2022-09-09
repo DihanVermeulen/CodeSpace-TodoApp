@@ -12,6 +12,9 @@ class Tasks {
     this._tasks = tasks
   }
 
+  /**
+   * USED TO GET ALL TASKS
+   */
   get getTasks() {
     return this._tasks;
   }
@@ -40,17 +43,16 @@ class Tasks {
     this.saveToLocalStorage();
   };
 
+  /**
+   * GETS CURRENT DATE
+   */
   get getCurrentDate() {
     return new Date().toJSON().slice(0, 10)
   }
 
-  getIcons() {
-    for (let item in this._tasks) {
-      console.log(item);
-      console.log(this._tasks[item].tasks)
-    }
-  };
-
+  /**
+   * CREATES A CATEGORY
+   */
   createCategory(categoryName, chosenIcon) {
     this._tasks[categoryName] = {};
     this._tasks[categoryName].dateCreated = this.getCurrentDate;
@@ -58,11 +60,13 @@ class Tasks {
     this._tasks[categoryName].tasks = [];
   };
 
+  /**
+   * DELETES CATEGORY
+   */
   deleteCategory(e) {
     let tasks = this._tasks;
     console.log("clicked delete button");
     let id = e.target.parentNode.parentNode.parentNode.id;
-    // let id = e.target;
     console.log("Out of object: id: " + id);
     console.log("before delete tasks");
     console.log(tasks);
@@ -94,15 +98,21 @@ class Tasks {
         }
       }
     }
-
   }
 
+  /**
+   * SAVES this._tasks to local storage
+   */
   saveToLocalStorage() {
     let jsonData = JSON.stringify(this._tasks);
     console.log(jsonData);
     localStorage.setItem("tasks", jsonData);
   }
 
+  /**
+   * RENERS TASKS TO DOM
+   * @param {*} option - option to sort tasks or filter tasks based on user input. 
+   */
   render(option) {
     let allTasks = this._tasks;
     console.log('rendering');
@@ -244,8 +254,7 @@ let renderAll = () => {
 
 // CATEGORY FUNCTIONS
 /**
- * CREATES A CATEGORY
- * @param {string} event - event of form that creates a category. 
+ * CREATES A CATEGORY 
  */
 const createCategory = (event) => {
   event.preventDefault;
@@ -304,6 +313,7 @@ const saveIdToSessionStorage = (e) => {
 sortAlphabeticallyButton.onclick = sortAlphabetically;
 allButton.onclick = renderAll;
 addCategoryModalButton.onclick = createCategory;
+
 /**
  *  CREATES TASKS INSIDE OF CATEGORY 
  */
@@ -324,7 +334,7 @@ addTasksModalButton.addEventListener("click", (event) => {
 });
 
 /**
- *  CHECKS VALUE OF CHECKBOX THEN SAVES VALUE INTO TASK'S COMPLETED KEY 
+ *  CHECKS VALUE OF CHECKBOX THEN SAVES VALUE INTO TASK'S {COMPLETED} KEY 
  */
 const checkCheckbox = (e) => {
   console.log('checkbox');
@@ -344,7 +354,6 @@ const checkCheckbox = (e) => {
 
 // MAKES THE .cursor DIV FOLLOW USER'S CURSOR
 const cursor = document.querySelector(".cursor");
-
 document.addEventListener('mousemove', e => {
   cursor.setAttribute("style", "top: " + (e.pageY - 20) + "px; left: " + (e.pageX - 20) + "px;");
 })
